@@ -24,12 +24,15 @@
 
   <div class="mb-3">
     <%= form.label :cost_price, class: "form-label" %>
-    <%= form.text_field :cost_price, type: "number", class: "form-control" %>
+    <%= form.text_field :cost_price, type: "number", step: "0.01", class: "form-control" %>
   </div>
 
   <div class="mb-3">
     <%= form.label :retail_price, class: "form-label" %>
-    <%= form.text_field :retail_price, type: "number", class: "form-control" %>
+    <%= form.text_field :retail_price,
+                    type: "number",
+                    step: "0.01",
+                    class: "form-control" %>
   </div>
 
   <div>

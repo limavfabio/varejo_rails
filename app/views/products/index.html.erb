@@ -1,16 +1,25 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Products" %>
-
-<h1>Products</h1>
-
-<div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New product", new_product_path %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Cost Price</th>
+      <th scope="col">Retail Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Product 1</td>
+      <td>High-quality product</td>
+      <td>$10.00</td>
+      <td>$15.00</td>
+    </tr>
+    <tr>
+      <td>Product 2</td>
+      <td>Durable and reliable</td>
+      <td>$20.00</td>
+      <td>$30.00</td>
+    </tr>
+    <!-- Add more rows as needed -->
+  </tbody>
+</table>

@@ -21,6 +21,9 @@ importers:
       vite:
         specifier: ^5.4.10
         version: 5.4.10
+      vite-plugin-full-reload:
+        specifier: ^1.2.0
+        version: 1.2.0
       vite-plugin-ruby:
         specifier: ^5.1.1
         version: 5.1.1(vite@5.4.10)
@@ -462,6 +465,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  vite-plugin-full-reload@1.2.0:
+    resolution: {integrity: sha512-kz18NW79x0IHbxRSHm0jttP4zoO9P9gXh+n6UTwlNKnviTTEpOlum6oS9SmecrTtSr+muHEn5TUuC75UovQzcA==}
+
   vite-plugin-ruby@5.1.1:
     resolution: {integrity: sha512-I1dXJq2ywdvTD2Cz5LYNcYLujqQ3eUxPoCjruRdfm2QBtHBY15NEeb6x5HuPM3T5S+y8S3p9fwRsieQQCjk0gg==}
     peerDependencies:
@@ -871,6 +877,11 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  vite-plugin-full-reload@1.2.0:
+    dependencies:
+      picocolors: 1.1.1
+      picomatch: 2.3.1
 
   vite-plugin-ruby@5.1.1(vite@5.4.10):
     dependencies:
