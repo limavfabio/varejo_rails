@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      htmx.org:
-        specifier: 2.0.3
-        version: 2.0.3
+      '@hotwired/turbo-rails':
+        specifier: ^8.0.12
+        version: 8.0.12
       svelte:
         specifier: ^5.1.13
         version: 5.1.13
@@ -169,6 +169,13 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@hotwired/turbo-rails@8.0.12':
+    resolution: {integrity: sha512-ZXwu9ez+Gd4RQNeHIitqOQgi/LyqY8J4JqsUN0nnYiZDBRq7IreeFdMbz29VdJpIsmYqwooE4cFzPU7QvJkQkA==}
+
+  '@hotwired/turbo@8.0.12':
+    resolution: {integrity: sha512-l3BiQRkD7qrnQv6ms6sqPLczvwbQpXt5iAVwjDvX0iumrz6yEonQkNAzNjeDX25/OJMFDTxpHjkJZHGpM9ikWw==}
+    engines: {node: '>= 14'}
+
   '@jridgewell/gen-mapping@0.3.5':
     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
     engines: {node: '>=6.0.0'}
@@ -198,6 +205,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@rails/actioncable@7.2.200':
+    resolution: {integrity: sha512-gVmi3MabEa+Bkatvw0/k1Y3WTidcIf3qNbb9L8qc+AmT2UmkVqUZhJpSLvKmH10twCYIGzn7yySW/lOpg81Duw==}
 
   '@rollup/rollup-android-arm-eabi@4.25.0':
     resolution: {integrity: sha512-CC/ZqFZwlAIbU1wUPisHyV/XRc5RydFrNLtgl3dGYskdwPZdt4HERtKm50a/+DtTlKeCq9IXFEWR+P6blwjqBA==}
@@ -372,9 +382,6 @@ packages:
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
-
-  htmx.org@2.0.3:
-    resolution: {integrity: sha512-AeoJUAjkCVVajbfKX+3sVQBTCt8Ct4lif1T+z/tptTXo8+8yyq3QIMQQe/IT+R8ssfrO1I0DeX4CAronzCL6oA==}
 
   is-extglob@2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
@@ -578,6 +585,13 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
+  '@hotwired/turbo-rails@8.0.12':
+    dependencies:
+      '@hotwired/turbo': 8.0.12
+      '@rails/actioncable': 7.2.200
+
+  '@hotwired/turbo@8.0.12': {}
+
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
       '@jridgewell/set-array': 1.2.1
@@ -606,6 +620,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+
+  '@rails/actioncable@7.2.200': {}
 
   '@rollup/rollup-android-arm-eabi@4.25.0':
     optional: true
@@ -760,8 +776,6 @@ snapshots:
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
-
-  htmx.org@2.0.3: {}
 
   is-extglob@2.1.1: {}
 
