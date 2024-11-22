@@ -20,27 +20,26 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'application' %>
-    <% unless controller_name == "pdv" && action_name == "index" %>
-      <%= vite_javascript_tag 'htmx' %>
-    <% end %>
-
-    <!--
-      If using a TypeScript entrypoint file:
-        vite_typescript_tag 'application'
-
-      If using a .jsx or .tsx entrypoint, add the extension:
-        vite_javascript_tag 'application.jsx'
-
-      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
-    -->
-
+    <%= vite_javascript_tag "application" %>
+    <!-- If using a TypeScript entrypoint file: vite_typescript_tag
+    'application' If using a .jsx or .tsx entrypoint, add the extension:
+    vite_javascript_tag 'application.jsx' Visit the guide for more information:
+    https://vite-ruby.netlify.app/guide/rails -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    >
   </head>
 
-  <body hx-boost="true">
-    <%= yield %>
-    <%= link_to "Go to PDV", pdv_path, { "hx-boost": "false"} %>
-    <%= link_to "Go to root", products_path %>
+  <body>
+    <main class="container"><%= yield %></main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
 
   </body>
 </html>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @sales_payment_method %>
+
+<div>
+  <%= link_to "Edit this sales payment method", edit_sales_payment_method_path(@sales_payment_method) %> |
+  <%= link_to "Back to sales payment methods", sales_payment_methods_path %>
+
+  <%= button_to "Destroy this sales payment method", @sales_payment_method, method: :delete %>
+</div>

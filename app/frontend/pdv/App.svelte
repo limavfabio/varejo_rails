@@ -1,13 +1,95 @@
-<script>
-  function greet() {
-    alert("Welcome to Svelte!");
+<script lang="ts">
+  type Product = {
+    id: number;
+    name: string;
+    description: string;
+    cost_price: number;
+    retail_price: number;
+    created_at: string;
+    updated_at: string;
+  };
+
+  // Fetch Products
+  let products: Product[] = $state([]);
+  let loading = $state(false);
+  let error = $state(null);
+
+  $effect(() => {
+    fetch("/products.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: Product[]) => {
+        products = data;
+        products = products.map((product) => ({
+          ...product,
+          retail_price: Number(product.retail_price),
+          cost_price: Number(product.cost_price),
+        }));
+
+        loading = false;
+      })
+      .catch((err) => {
+        error = err;
+        loading = false;
+      });
+  });
+
+  // Cart logic
+  let cart: Product[] = $state([]);
+  let cartTotal = $derived.by(() => {
+    return cart.reduce((total, product) => {
+      return total + product.retail_price;
+    }, 0);
+  });
+
+  function addToCart(product: Product) {
+    cart = [...cart, product];
   }
 </script>
 
-<button onclick={greet}>click me</button>
+<div class="container">
+  <div class="row">
+    <!-- Product Panel -->
+    <div class="col-md-6 border-right">
+      <h2 class="text-center my-3">Products</h2>
+      <div class="list-group">
+        <!-- Example Product Item -->
+        {#each products as product}
+          <button
+            onclick={() => addToCart(product)}
+            type="button"
+            class="list-group-item list-group-item-action"
+          >
+            {product.name} - ${product.retail_price}
+          </button>
+        {/each}
+      </div>
+    </div>
 
-<style>
-  button {
-    font-size: 2em;
-  }
-</style>
+    <!-- Cart Panel -->
+    <div class="col-md-6">
+      <h2 class="text-center my-3">Cart</h2>
+      <ul class="list-group">
+        <!-- Example Cart Item -->
+        {#each cart as product}
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {product.name}
+            <span class="badge badge-primary badge-pill"
+              >${product.retail_price}</span
+            >
+          </li>
+        {/each}
+      </ul>
+      <div class="mt-3">
+        <h4>{cartTotal}</h4>
+        <button class="btn btn-primary">Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
