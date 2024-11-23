@@ -4,7 +4,6 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = Product.all
-    @faker_quote = Faker::Movie.quote
   end
 
   # GET /products/1 or /products/1.json
