@@ -1,6 +1,6 @@
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
-    <tr>
+    <tr class="table-secondary">
       <th scope="col">Name</th>
       <th scope="col">Description</th>
       <th scope="col">Cost Price</th>
@@ -8,18 +8,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Product 1</td>
-      <td>High-quality product</td>
-      <td>$10.00</td>
-      <td>$15.00</td>
-    </tr>
-    <tr>
-      <td>Product 2</td>
-      <td>Durable and reliable</td>
-      <td>$20.00</td>
-      <td>$30.00</td>
-    </tr>
-    <!-- Add more rows as needed -->
+
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= number_to_brl product.cost_price %></td>
+        <td><%= number_to_brl product.retail_price %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
