@@ -1,21 +1,25 @@
-<table class="table table-hover">
-  <thead>
-    <tr class="table-secondary">
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Cost Price</th>
-      <th scope="col">Retail Price</th>
-    </tr>
-  </thead>
-  <tbody>
-
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.name %></td>
-        <td><%= product.description %></td>
-        <td><%= number_to_brl product.cost_price %></td>
-        <td><%= number_to_brl product.retail_price %></td>
+<div class="row">
+  <%= render "shared/sidebar" %>
+  <table class="table table-hover">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Cost Price</th>
+        <th scope="col">Retail Price</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.description %></td>
+          <td><%= number_to_brl product.cost_price %></td>
+          <td><%= number_to_brl product.retail_price %></td>
+          <td><%= @faker_quote %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

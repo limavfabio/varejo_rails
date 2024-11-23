@@ -45,6 +45,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "erb-formatter"
+  gem "faker", "~> 3.5"
 end
 
 group :development do
