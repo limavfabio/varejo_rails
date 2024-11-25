@@ -1,6 +1,48 @@
-<div>
-  <div class="row">
-    <div class="col-md-9 bg-error"></div>
-    <div class="col-md-3 bg-success"></div>
+<%= form_with(model: @product) do |form| %>
+  <div class="container-fluid">
+    <div class="row gx-2 py-2">
+      <div class="col-8 bg-light p-3">
+        <% if @product.errors.any? %>
+          <div style="color: red">
+            <h2><%= pluralize(@product.errors.count, "error") %>
+              prohibited this product from being saved:</h2>
+
+            <ul>
+              <% @product.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.label :name, class: "form-label" %>
+          <%= form.text_field :name, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :description, class: "form-label" %>
+          <%= form.textarea :description, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :cost_price, class: "form-label" %>
+          <%= form.text_field :cost_price, type: "number", step: "0.01", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :retail_price, class: "form-label" %>
+          <%= form.text_field :retail_price,
+                          type: "number",
+                          step: "0.01",
+                          class: "form-control" %>
+        </div>
+      </div>
+      <div class="col-4 bg-success">
+        asdfasfasdfasd
+      </div>
+    </div>
+
+    <%= render "products/footer", form: %>
   </div>
-</div>
+<% end %>
