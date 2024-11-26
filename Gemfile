@@ -51,6 +51,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "authentication-zero", require: false
+  gem "dockerfile-rails", ">= 1.6"
 end
 
 group :test do
@@ -61,5 +63,3 @@ end
 
 gem "vite_rails"
 gem "turbo-rails"
-
-gem "dockerfile-rails", ">= 1.6", :group => :development

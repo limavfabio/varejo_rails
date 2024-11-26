@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_20_191742) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_26_120059) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tenant_id", null: false
+    t.index ["tenant_id"], name: "index_customers_on_tenant_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -62,9 +64,35 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_20_191742) do
     t.index ["sale_id"], name: "index_sales_products_on_sale_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "user_agent"
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.boolean "verified", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "customers", "tenants"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales_payment_methods", "payment_methods"
   add_foreign_key "sales_payment_methods", "sales"
   add_foreign_key "sales_products", "products"
   add_foreign_key "sales_products", "sales"
+  add_foreign_key "sessions", "users"
 end
