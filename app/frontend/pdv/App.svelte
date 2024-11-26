@@ -1,4 +1,5 @@
 <script lang="ts">
+  // Fetch Products
   type Product = {
     id: number;
     name: string;
@@ -9,9 +10,8 @@
     updated_at: string;
   };
 
-  // Fetch Products
   let products: Product[] = $state([]);
-  let loading = $state(false);
+  let loading = $state(true);
   let error = $state(null);
 
   $effect(() => {
@@ -49,13 +49,40 @@
   function addToCart(product: Product) {
     cart = [...cart, product];
   }
+
+  // Current payments
+  type PaymentMethod = {
+    id: number;
+    name: string;
+  };
+
+  let paymentMethods: PaymentMethod[] = $state([]);
+
+  $effect(() => {
+    fetch("/payment_methods.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: PaymentMethod[]) => {
+        paymentMethods = data;
+
+        loading = false;
+      })
+      .catch((err) => {
+        error = err;
+        loading = false;
+      });
+  });
 </script>
 
 <div class="container">
   <div class="row">
     <!-- Product Panel -->
     <div class="col-md-6 border-right">
-      <h2 class="text-center my-3">Products</h2>
+      <h2 class="text-center my-3">Produtos</h2>
       <div class="list-group">
         <!-- Example Product Item -->
         {#each products as product}
@@ -72,9 +99,9 @@
 
     <!-- Cart Panel -->
     <div class="col-md-6">
-      <h2 class="text-center my-3">Cart</h2>
+      <h2 class="text-center my-3">Cesta</h2>
       <ul class="list-group">
-        <!-- Example Cart Item -->
+        <!-- Cart Item -->
         {#each cart as product}
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
@@ -88,8 +115,40 @@
       </ul>
       <div class="mt-3">
         <h4>{cartTotal}</h4>
-        <button class="btn btn-primary">Checkout</button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasExample"
+          aria-controls="offcanvasExample"
+        >
+          Finalizar Venda
+        </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Painel Finalizar Venda -->
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Finalizar Venda</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-md-6">Painel 1</div>
+      <div class="col-md-6">Painel 2</div>
     </div>
   </div>
 </div>

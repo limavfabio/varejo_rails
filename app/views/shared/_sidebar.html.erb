@@ -1,20 +1,22 @@
-<nav class="col-md-3 col-lg-3 d-md-block sidebar">
+<nav class="col-md-3 d-md-block sidebar bg-white">
   <div class="sidebar-sticky">
     <h4 class="text-center mt-3">Menu</h4>
     <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link" href="#home">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#services">Services</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#clients">Clients</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#contact">Contact</a>
-      </li>
-      <!-- Add more links as needed -->
+      <% links = [
+        { name: "Home", href: "/", icon: "house" },
+        { name: "Frente de Caixa", href: "/pdv", icon: "cash" },
+        { name: "Produtos", href: "/products", icon: "truck" },
+        { name: "Vendas", href: "/sales", icon: "cart" },
+      ] %>
+
+      <% links.each do |link| %>
+        <li class="nav-item">
+          <a href="<%= link[:href] %>" class="nav-link">
+            <%= bi_icon link[:icon] %>
+            <%= link[:name] %>
+          </a>
+        </li>
+      <% end %>
     </ul>
   </div>
 </nav>

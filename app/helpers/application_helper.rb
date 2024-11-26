@@ -6,4 +6,12 @@ module ApplicationHelper
   def number_to_brl(number)
     number_to_currency(number, unit: "R$", separator: ",", delimiter: ".")
   end
+
+  # Renders a Bootstrap icon.
+  #
+  # @param [String] icon_name the name of the icon to be rendered
+  # @return [String] the HTML code for the icon
+  def bi_icon(icon_name)
+    content_tag(:i, nil, class: "bi bi-#{icon_name}")
+  end
 end
