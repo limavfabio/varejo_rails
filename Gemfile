@@ -61,3 +61,5 @@ end
 
 gem "vite_rails"
 gem "turbo-rails"
+
+gem "dockerfile-rails", ">= 1.6", :group => :development

@@ -10,5 +10,8 @@
   "dependencies": {
     "@hotwired/turbo-rails": "^8.0.12",
     "svelte": "^5.1.13"
+  },
+  "scripts": {
+    "build": "vite build --outDir public"
   }
 }
