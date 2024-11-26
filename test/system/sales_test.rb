@@ -15,7 +15,7 @@ class SalesTest < ApplicationSystemTestCase
     click_on "New sale"
 
     fill_in "Customer", with: @sale.customer_id
-    fill_in "Total value", with: @sale.total_value
+    fill_in "Total value", with: @sale.total_price
     click_on "Create Sale"
 
     assert_text "Sale was successfully created"
@@ -27,7 +27,7 @@ class SalesTest < ApplicationSystemTestCase
     click_on "Edit this sale", match: :first
 
     fill_in "Customer", with: @sale.customer_id
-    fill_in "Total value", with: @sale.total_value
+    fill_in "Total value", with: @sale.total_price
     click_on "Update Sale"
 
     assert_text "Sale was successfully updated"

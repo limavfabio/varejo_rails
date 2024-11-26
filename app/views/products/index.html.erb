@@ -1,27 +1,35 @@
-<div class="row">
-  <%= render "shared/sidebar" %>
-  <div class="col-md-9">
-    <table class="table table-hover">
-      <thead>
-        <tr class="table-secondary">
-          <th scope="col">Ações</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Custo</th>
-          <th scope="col">Preço</th>
+<div class="m-2">
+  <table class="table table-hover m-0">
+    <thead>
+      <tr class="">
+        <th colspan="2" class="">**Cabeçalho da Tabela**</th>
+        <th>
+          <%= link_to "Novo Produto", new_product_path, class: "btn btn-primary" %>
+        </th>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="col">Ações</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Cost Price</th>
+        <th scope="col">Retail Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= render "products/actions_dropdown", product: %></td>
+          <td><%= link_to product.name, product, class: "" %></td>
+          <td><%= product.description %></td>
+          <td><%= number_to_brl product.cost_price %></td>
+          <td><%= number_to_brl product.retail_price %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @products.each do |product| %>
-          <tr>
-            <td><%= bi_icon "three-dots-vertical" %></td>
-            <td><%= product.name %></td>
-            <td><%= product.description %></td>
-            <td><%= number_to_brl product.cost_price %></td>
-            <td><%= number_to_brl product.retail_price %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="mx-auto">**Rodapé da Tabela**</td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
