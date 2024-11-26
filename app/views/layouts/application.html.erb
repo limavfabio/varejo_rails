@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <% if current_page? pdv_path %>
+      <meta name="turbo-visit-control" content="reload">
+    <% end %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -43,9 +47,7 @@
     <div style="color: green"><%= notice %></div>
 
     <main class="container-fluid px-0 min-vh-100 bg-primary-subtle">
-      <% if current_page? pdv_path %>
-        <%= yield %>
-      <% else %>
+      <% if gestao_layout? %>
         <div class="row g-0">
           <%= render "shared/sidebar" %>
           <div class="col-md-9">
@@ -53,6 +55,8 @@
             <%= yield %>
           </div>
         </div>
+      <% else %>
+        <%= yield %>
       <% end %>
     </main>
     <script

@@ -14,4 +14,8 @@ module ApplicationHelper
   def bi_icon(icon_name)
     content_tag(:i, nil, class: "bi bi-#{icon_name}")
   end
+
+  def gestao_layout?
+    %w[customers payment_methods products sales sales_payment_methods sales_products].include?(controller_name)
+  end
 end
