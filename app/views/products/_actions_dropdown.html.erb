@@ -1,6 +1,6 @@
 <div class="dropdown">
   <button
-    class="btn btn-sm dropdown-toggle no-caret"
+    class="btn dropdown-toggle"
     type="button"
     data-bs-toggle="dropdown"
     aria-expanded="false"
@@ -8,6 +8,6 @@
     <%= bi_icon "three-dots-vertical" %>
   </button>
   <ul class="dropdown-menu">
-    <li><%= button_to "Deletar Produto", product, method: :delete %></li>
+    <li><%= button_to "Deletar Produto", product, method: :delete, class: "dropdown-item" %></li>
   </ul>
 </div>

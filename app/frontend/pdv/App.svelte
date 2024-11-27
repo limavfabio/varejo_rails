@@ -86,7 +86,7 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Dropdown button
+      Mais
     </button>
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="/">Home</a></li>
