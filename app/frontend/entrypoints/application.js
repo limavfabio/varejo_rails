@@ -23,3 +23,9 @@
 
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
+
+// Import our custom CSS
+import "~/stylesheets/application.scss";
+
+// Import all of Bootstrap's JS
+import "bootstrap";
