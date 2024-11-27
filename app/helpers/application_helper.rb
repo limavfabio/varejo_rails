@@ -15,7 +15,10 @@ module ApplicationHelper
     content_tag(:i, nil, class: "bi bi-#{icon_name}")
   end
 
+  # Checks if the current controller have a gestao layout.
+  #
+  # @return [Boolean] true if the current controller has a gestao layout, false otherwise
   def gestao_layout?
-    %w[customers payment_methods products sales sales_payment_methods sales_products].include?(controller_name)
+    %w[home customers payment_methods products sales sales_payment_methods sales_products].include?(controller_name)
   end
 end

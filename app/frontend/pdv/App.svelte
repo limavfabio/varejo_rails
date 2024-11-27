@@ -78,6 +78,23 @@
   });
 </script>
 
+<header class="p-3 text-bg-primary">
+  <div class="dropdown">
+    <button
+      class="btn btn-secondary dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Dropdown button
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="/">Home</a></li>
+      <li><a class="dropdown-item" href="/products">Produtos</a></li>
+    </ul>
+  </div>
+</header>
+
 <div class="container">
   <div class="row">
     <!-- Product Panel -->
@@ -129,7 +146,7 @@
   </div>
 </div>
 
-<!-- Painel Finalizar Venda -->
+<!-- Offcanvas Finalizar Venda -->
 <div
   class="offcanvas offcanvas-end"
   tabindex="-1"
