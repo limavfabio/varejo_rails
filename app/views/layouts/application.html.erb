@@ -29,6 +29,7 @@
       <%= vite_javascript_tag "pdv" %>
     <% else %>
       <%= vite_javascript_tag "turbo" %>
+      <%= vite_javascript_tag "stimulus" %>
     <% end %>
     <!-- If using a TypeScript entrypoint file: vite_typescript_tag --> <!--
     >'application' If using a .jsx or .tsx entrypoint, add the extension:
@@ -37,8 +38,7 @@
   </head>
 
   <body>
-    <div style="color: red"><%= alert %></div>
-    <div style="color: green"><%= notice %></div>
+    <%= render "shared/toast" %>
 
     <main class="container-fluid px-0 min-vh-100 bg-primary-subtle">
       <% if gestao_layout? %>
