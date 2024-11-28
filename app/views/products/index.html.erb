@@ -1,57 +1,66 @@
 <div class="m-2">
-  <table class="table table-hover m-0">
-    <thead>
-      <tr class="">
-        <th colspan="2" class="">
-          <%= search_form_for @q, class: "d-flex gap-3", data: { controller: "search" } do |f| %>
-            <%= f.search_field :name_cont,
-                           class: "form-control",
-                           data: {
-                             action: "input->search#debouncedSubmit",
-                           },
-                           placeholder: "Pesquisar" %>
+  <div
+    class="
+      d-flex justify-content-between align-items-center p-2 bg-light rounded-top
+    "
+  >
+    <div class="">
+      <%= search_form_for @q, class: "d-flex gap-3", data: { controller: "search", "turbo-frame": "products" } do |f| %>
+        <%= f.search_field :name_cont,
+                       class: "form-control",
+                       data: {
+                         action: "input->search#debouncedSubmit",
+                       },
+                       placeholder: "Pesquisar" %>
 
-            <%= f.submit class: "btn btn-primary" %>
-          <% end %>
-        </th>
-        <th colspan="3" class="text-end">
-          <%= link_to "Novo Produto", new_product_path, class: "btn btn-primary" %>
-          <button
-            class="btn btn-secondary"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasFilter"
-            aria-controls="offcanvasFilter"
-          >
-            Filtrar
-          </button>
-        </th>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="col">Ações</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Cost Price</th>
-        <th scope="col">Retail Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td><%= render "products/actions_dropdown", product: %></td>
-          <td><%= link_to product.name, product, class: "" %></td>
-          <td><%= product.description %></td>
-          <td><%= number_to_brl product.cost_price %></td>
-          <td><%= number_to_brl product.retail_price %></td>
-        </tr>
+        <button class="btn btn-primary">
+          <i class="bi bi-search"></i>
+        </button>
       <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="4" class="mx-auto">**Rodapé da Tabela**</td>
-      </tr>
-    </tfoot>
-  </table>
+    </div>
+
+    <div colspan="3" class="text-end">
+      <%= link_to "Novo Produto", new_product_path, class: "btn btn-primary" %>
+      <button
+        class="btn btn-secondary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasFilter"
+        aria-controls="offcanvasFilter"
+      >
+        Filtrar
+      </button>
+    </div>
+  </div>
+  <%= turbo_frame_tag "products" do %>
+    <table class="table table-hover m-0">
+      <thead>
+        <tr class="table-secondary">
+          <th scope="col">Ações</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Cost Price</th>
+          <th scope="col">Retail Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= render "products/actions_dropdown", product: %></td>
+            <td><%= link_to product.name, product, class: "" %></td>
+            <td><%= product.description %></td>
+            <td><%= number_to_brl product.cost_price %></td>
+            <td><%= number_to_brl product.retail_price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" class="mx-auto rounded-bottom">**Rodapé da Tabela**</td>
+        </tr>
+      </tfoot>
+    </table>
+  <% end %>
 </div>
 
 <%# Offcanvas Filtrar Produtos %>
