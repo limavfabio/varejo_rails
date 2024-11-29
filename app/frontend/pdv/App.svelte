@@ -39,15 +39,36 @@
   });
 
   // Cart logic
-  let cart: Product[] = $state([]);
-  let cartTotal = $derived.by(() => {
-    return cart.reduce((total, product) => {
-      return total + product.retail_price;
+  type CartItem = {
+    product: Product;
+    quantity: number;
+  };
+
+  let cart: CartItem[] = $state([]);
+  let cartTotalAmount = $derived.by(() => {
+    return cart.reduce((total, item) => {
+      return total + item.product.retail_price * item.quantity;
     }, 0);
   });
 
   function addToCart(product: Product) {
-    cart = [...cart, product];
+    const existingItem = cart.find((item) => item.product.id === product.id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart = [...cart, { product, quantity: 1 }];
+    }
+  }
+
+  function removeFromCart(product: Product) {
+    const existingItem = cart.find((item) => item.product.id === product.id);
+    if (existingItem) {
+      if (existingItem.quantity === 1) {
+        cart = cart.filter((item) => item.product.id !== product.id);
+      } else {
+        existingItem.quantity -= 1;
+      }
+    }
   }
 
   // Current payments
@@ -56,7 +77,25 @@
     name: string;
   };
 
+  type Payment = {
+    id: number;
+    payment_method: PaymentMethod;
+    amount: number;
+  };
+
   let paymentMethods: PaymentMethod[] = $state([]);
+  let selectedPaymentMethod: PaymentMethod | null = $state(null);
+  let currentPayments: Payment[] = $state([]);
+  let paymentInputAmount: number = $state(0);
+  let cartAmountDue = $derived.by(() => {
+    // Calculate the total amount of current payments
+    const totalPayments = currentPayments.reduce((total, payment) => {
+      return total + payment.amount;
+    }, 0);
+
+    // Calculate the remaining amount due
+    return cartTotalAmount - totalPayments;
+  });
 
   $effect(() => {
     fetch("/payment_methods.json")
@@ -76,6 +115,67 @@
         loading = false;
       });
   });
+
+  function addPayment(paymentMethod: PaymentMethod, amount: number) {
+    currentPayments = [
+      ...currentPayments,
+      {
+        id: currentPayments.length + 1,
+        payment_method: paymentMethod,
+        amount: amount,
+      },
+    ];
+  }
+
+  function removePayment(currentPayment: Payment) {
+    currentPayments = currentPayments.filter(
+      (payment) => payment.id !== currentPayment.id
+    );
+  }
+
+  // Customer
+  type Customer = {
+    id: number;
+    name: string;
+    email: string;
+    created_at: string;
+    updated_at: string;
+  };
+
+  let customers: Customer[] = $state([]);
+  let selectedCustomer: Customer | null = $state(null);
+
+  $effect(() => {
+    fetch("/customers.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: Customer[]) => {
+        customers = data;
+        loading = false;
+      })
+      .catch((err) => {
+        error = err;
+        loading = false;
+      });
+  });
+
+  type sale = {
+    id: number;
+    customer: Customer;
+    products: Product[];
+    payments: Payment[];
+    created_at: string;
+    updated_at: string;
+  };
+
+  function finalizeSale() {
+    // Implement the logic to finalize the sale
+    console.log("Sale finalized, payments:", currentPayments);
+  }
 </script>
 
 <header class="p-3 text-bg-primary">
@@ -95,20 +195,31 @@
   </div>
 </header>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <!-- Product Panel -->
-    <div class="col-md-6 border-right">
+    <div class="col-md-6">
       <h2 class="text-center my-3">Produtos</h2>
-      <div class="list-group">
-        <!-- Example Product Item -->
+      <div class="row">
         {#each products as product}
           <button
+            class="col-6 col-sm-4 mb-4 btn"
             onclick={() => addToCart(product)}
-            type="button"
-            class="list-group-item list-group-item-action"
           >
-            {product.name} - ${product.retail_price}
+            <div class="card">
+              <!-- Assuming product has an image_url attribute -->
+              <img
+                src="https://placehold.co/80"
+                class="card-img-top"
+                alt="<%= product.name %>"
+              />
+              <div class="card-body">
+                <!-- Assuming product has a name attribute -->
+                <h5 class="card-title">{product.name}</h5>
+                <!-- Assuming product has a description attribute -->
+                <p class="card-text">R$ {product.retail_price}</p>
+              </div>
+            </div>
           </button>
         {/each}
       </div>
@@ -119,25 +230,41 @@
       <h2 class="text-center my-3">Cesta</h2>
       <ul class="list-group">
         <!-- Cart Item -->
-        {#each cart as product}
+        {#each cart as item}
           <li
-            class="list-group-item d-flex justify-content-between align-items-center"
+            class="list-group-item d-flex justify-content-between align-items-center text-center"
           >
-            {product.name}
-            <span class="badge badge-primary badge-pill"
-              >${product.retail_price}</span
-            >
+            <div>
+              {item.product.name}
+
+              <span class="badge rounded-pill text-bg-secondary">
+                {item.quantity}
+              </span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge rounded-pill text-bg-primary"
+                >${item.product.retail_price}</span
+              >
+              <button
+                class="btn btn-sm btn-danger"
+                type="button"
+                aria-label="Remove product from cart"
+                onclick={() => removeFromCart(item.product)}
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </li>
         {/each}
       </ul>
       <div class="mt-3">
-        <h4>{cartTotal}</h4>
+        <h4>{cartTotalAmount}</h4>
         <button
           class="btn btn-primary"
           type="button"
           data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasExample"
-          aria-controls="offcanvasExample"
+          data-bs-target="#offcanvasSale"
+          aria-controls="offcanvasSale"
         >
           Finalizar Venda
         </button>
@@ -150,11 +277,12 @@
 <div
   class="offcanvas offcanvas-end"
   tabindex="-1"
-  id="offcanvasExample"
-  aria-labelledby="offcanvasExampleLabel"
+  id="offcanvasSale"
+  aria-labelledby="offcanvasSaleLabel"
+  style="width: 60%"
 >
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Finalizar Venda</h5>
+    <h5 class="offcanvas-title" id="offcanvasSaleLabel">Finalizar Venda</h5>
     <button
       type="button"
       class="btn-close"
@@ -162,10 +290,115 @@
       aria-label="Close"
     ></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body bg-secondary-subtle">
     <div class="row">
-      <div class="col-md-6">Painel 1</div>
-      <div class="col-md-6">Painel 2</div>
+      <div class="col-md-6">
+        <div class="container-fluid mb-3">
+          {#if selectedPaymentMethod}
+            <h4>{selectedPaymentMethod.name}</h4>
+          {:else}
+            <h4>Selecione um meio de pagamento</h4>
+          {/if}
+
+          <div
+            class="row row-cols-1 row-cols-md-2 g-2 overflow-auto"
+            style="max-height: 300px;"
+          >
+            {#each paymentMethods as paymentMethod}
+              <button
+                class="btn btn-primary col"
+                onclick={() => {
+                  selectedPaymentMethod = paymentMethod;
+                  paymentInputAmount === 0
+                    ? (paymentInputAmount = cartAmountDue)
+                    : paymentInputAmount;
+                }}
+              >
+                <div class="">
+                  <h5 class="">
+                    {paymentMethod.name}
+                  </h5>
+                  <div class="d-flex justify-content-center">
+                    <i class="bi bi-credit-card" style="font-size: 3rem;"></i>
+                  </div>
+                </div>
+              </button>
+            {/each}
+          </div>
+          <div class="mt-3">
+            <input
+              bind:value={paymentInputAmount}
+              class="form-control"
+              type="number"
+              step="0.01"
+            />
+            <button
+              class="btn btn-primary"
+              type="button"
+              disabled={!selectedPaymentMethod || paymentInputAmount <= 0}
+              onclick={() => {
+                addPayment(selectedPaymentMethod, paymentInputAmount);
+                selectedPaymentMethod = null;
+                paymentInputAmount = 0;
+              }}
+            >
+              Adicionar Pagamento
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="container-fluid">
+          <h4>Resumo da Venda</h4>
+          <div class="row">
+            <div class="col">
+              <h5>Total:</h5>
+              <p>{cartTotalAmount}</p>
+            </div>
+            <div class="col">
+              <h5>Saldo:</h5>
+              <p>
+                {cartAmountDue}
+              </p>
+            </div>
+          </div>
+          <ul class="list-group">
+            {#each currentPayments as payment}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center text-center"
+              >
+                <div>
+                  {payment.payment_method.name}
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge rounded-pill text-bg-primary"
+                    >${payment.amount}</span
+                  >
+                  <button
+                    class="btn btn-sm btn-danger"
+                    type="button"
+                    aria-label="Remove payment"
+                    onclick={() => removePayment(payment)}
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </li>
+            {/each}
+          </ul>
+          <div class="mt-3">
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+              onclick={finalizeSale}
+            >
+              Finalizar Venda
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
