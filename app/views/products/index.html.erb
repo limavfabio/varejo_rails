@@ -1,4 +1,4 @@
-<div class="m-2">
+<div class="p-2 vh-100 overflow-y-scroll">
   <div
     class="
       d-flex justify-content-between align-items-center p-2 bg-light rounded-top
@@ -33,10 +33,8 @@
     </div>
   </div>
   <%= turbo_frame_tag "products", target:"_top" do %>
-    <div
-      class="table-responsive rounded-bottom"
-      style="max-height: calc(100vh - 120px);"
-    >
+    <%# The bang on class custom-height-table is to prevent it from applying %>
+    <div class=" table-responsive rounded-bottom !custom-height-table">
       <table class="table table-hover m-0">
         <thead>
           <tr class="table-secondary">
@@ -47,7 +45,7 @@
             <th scope="col">Retail Price</th>
           </tr>
         </thead>
-        <tbody style="max-height: 400px; overflow-y: auto;">
+        <tbody class="overflow-scroll">
           <% @products.each do |product| %>
             <tr>
               <td><%= render "products/actions_dropdown", product: %></td>

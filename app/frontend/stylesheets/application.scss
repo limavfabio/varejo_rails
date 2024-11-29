@@ -4,3 +4,12 @@
 .dropdown-toggle::after {
   display: none; /* Hides the chevron */
 }
+
+.custom-height-table {
+  max-height: calc(100vh - 126px);
+}
+@media (min-width: 768px) {
+  .custom-height-table {
+    max-height: calc(100vh - 70px);
+  }
+}
