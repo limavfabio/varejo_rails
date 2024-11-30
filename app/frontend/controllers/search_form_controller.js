@@ -5,7 +5,7 @@ export default class extends Controller {
     this.debounceTimeout = null;
   }
 
-  debouncedSubmit() {
+  submit() {
     // Clear the previous timeout if it exists
     clearTimeout(this.debounceTimeout);
 

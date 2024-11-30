@@ -1,7 +1,7 @@
 import { Application } from "@hotwired/stimulus";
 
 import ToastController from "../controllers/toast_controller";
-import SearchController from "../controllers/search_controller";
+import SearchFormController from "../controllers/search_form_controller";
 
 const application = Application.start();
 
@@ -10,6 +10,6 @@ application.debug = false;
 window.Stimulus = application;
 
 Stimulus.register("toast", ToastController);
-Stimulus.register("search", SearchController);
+Stimulus.register("search_form", SearchFormController);
 
 console.log("Stimulus is ready");
