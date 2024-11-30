@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   belongs_to :company
+  enum :type, [ :user, :delegate, :administrator ]
+  validates :name, presence: true
+  validates :type, presence: true
 
   has_secure_password
 
@@ -10,7 +13,6 @@ class User < ApplicationRecord
   generates_token_for :password_reset, expires_in: 20.minutes do
     password_salt.last(10)
   end
-
 
   has_many :sessions, dependent: :destroy
 
