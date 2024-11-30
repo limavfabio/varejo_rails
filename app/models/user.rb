@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   belongs_to :company
-  enum :type, [ :user, :delegate, :administrator ]
+  enum :role, [ :user, :delegate, :administrator ]
   validates :name, presence: true
-  validates :type, presence: true
+  validates :role, presence: true
 
   has_secure_password
 
