@@ -4,6 +4,8 @@ class CreateCustomers < ActiveRecord::Migration[8.0]
       t.string :name
       t.string :address
 
+      t.references :company, null: false, foreign_key: true
+
       t.timestamps
     end
   end

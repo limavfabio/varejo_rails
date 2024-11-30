@@ -6,6 +6,8 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.decimal :cost_price
       t.decimal :retail_price
 
+      t.references :company, null: false, foreign_key: true
+
       t.timestamps
     end
   end

@@ -6,6 +6,7 @@ class CreateSalesProducts < ActiveRecord::Migration[8.0]
       t.integer :quantity
       t.decimal :total_price
 
+
       t.timestamps
     end
   end

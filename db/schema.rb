@@ -10,20 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_26_120059) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_26_115455) do
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "address"
+    t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tenant_id", null: false
-    t.index ["tenant_id"], name: "index_customers_on_tenant_id"
+    t.index ["company_id"], name: "index_customers_on_company_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
     t.string "name"
+    t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_payment_methods_on_company_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -31,15 +39,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_26_120059) do
     t.text "description"
     t.decimal "cost_price"
     t.decimal "retail_price"
+    t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_products_on_company_id"
   end
 
   create_table "sales", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.decimal "total_price"
+    t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_sales_on_company_id"
     t.index ["customer_id"], name: "index_sales_on_customer_id"
   end
 
@@ -73,26 +85,26 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_26_120059) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "tenants", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.boolean "verified", default: false, null: false
+    t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "customers", "tenants"
+  add_foreign_key "customers", "companies"
+  add_foreign_key "payment_methods", "companies"
+  add_foreign_key "products", "companies"
+  add_foreign_key "sales", "companies"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales_payment_methods", "payment_methods"
   add_foreign_key "sales_payment_methods", "sales"
   add_foreign_key "sales_products", "products"
   add_foreign_key "sales_products", "sales"
   add_foreign_key "sessions", "users"
+  add_foreign_key "users", "companies"
 end
