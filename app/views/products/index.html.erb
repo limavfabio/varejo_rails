@@ -1,60 +1,17 @@
-<div class="p-2 vh-100 overflow-y-scroll">
-  <div
-    class="
-      d-flex justify-content-between align-items-center p-2 bg-light rounded-top
-    "
-  >
-    <%= render "shared/search_form", table_frame_id: "products" %>
+<%= render "shared/table",
+  table_frame_id: "products",
+  header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"] do %>
 
-    <div colspan="3" class="text-end">
-      <%= link_to "Novo Produto", new_product_path, class: "btn btn-primary" %>
-      <button
-        class="btn btn-secondary"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasFilter"
-        aria-controls="offcanvasFilter"
-      >
-        Filtrar
-      </button>
-    </div>
-  </div>
-  <%= render "shared/table", table_frame_id: "products" %>
-</div>
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= render "products/actions_dropdown", product: %></td>
+      <td><%= link_to product.name, product %></td>
+      <td><%= product.description %></td>
+      <td><%= number_to_brl product.cost_price %></td>
+      <td><%= number_to_brl product.retail_price %></td>
+    </tr>
+  <% end %>
 
-<%# Offcanvas Filtrar Produtos %>
-<div
-  class="offcanvas offcanvas-end"
-  tabindex="-1"
-  id="offcanvasFilter"
-  aria-labelledby="offcanvasFilterLabel"
->
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasFilterLabel">Offcanvas</h5>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>
-      Aqui serão os filtros
-    </div>
-    <div class="dropdown mt-3">
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-      >
-        Dropdown button
-      </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+<% end %>
+
+<%= render "shared/table/offcanvas_filter" %>
