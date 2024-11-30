@@ -174,7 +174,16 @@
 
   function finalizeSale() {
     // Implement the logic to finalize the sale
-    console.log("Sale finalized, payments:", currentPayments);
+    console.log({
+      cart,
+      cartTotalAmount,
+      paymentMethods,
+      selectedPaymentMethod,
+      currentPayments,
+      cartAmountDue,
+      customers,
+      selectedCustomer,
+    });
   }
 </script>
 
