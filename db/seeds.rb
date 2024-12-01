@@ -8,6 +8,15 @@ require 'faker'
   )
 end
 
+User.create!(
+  name: 'Admin',
+  email: "admin@admin.com",
+  password: 'password',
+  verified: true,
+  role: 2,
+  company: Company.first,
+)
+
 # Create Users
 companies = Company.all
 5.times do
@@ -36,11 +45,14 @@ end
 
 # Create Payment Methods
 companies.each do |company|
-  3.times do
-    PaymentMethod.create!(
-      name: Faker::Finance.credit_card_type,
-      company: company
-    )
+  payment_methods = [
+    "Credit Card",
+    "Debit Card",
+    "Cash",
+    "PIX"
+  ]
+  payment_methods.each do |payment_method|
+    PaymentMethod.create!(name: payment_method, company: company)
   end
 end
 
@@ -62,7 +74,6 @@ companies.each do |company|
     customer = Customer.where(company: company).sample
     sale = Sale.create!(
       customer: customer,
-      total_price: Faker::Commerce.price,
       company: company
     )
 
@@ -73,32 +84,30 @@ companies.each do |company|
         sale: sale,
         product: product,
         quantity: rand(1..5),
-        total_price: product.retail_price * rand(1..5)
       )
     end
 
     # Create Sale Payment Methods
     1.times do
       payment_method = PaymentMethod.where(company: company).sample
-      SalePaymentMethod.create!(
+      SalePayment.create!(
         sale: sale,
         payment_method: payment_method,
-        amount: sale.total_price
+        amount: sale.sale_products.sum
+        { |sale_product| sale_product.product.retail_price * sale_product.quantity }
       )
     end
   end
 end
 
 # Create Sessions
-users = User.all
-users.each do |user|
-  3.times do
-    Session.create!(
-      user: user,
-      user_agent: Faker::Internet.user_agent,
-      ip_address: Faker::Internet.ip_v4_address
-    )
-  end
-end
-
-puts "Database seeded with sample data!"
+# users = User.all
+# users.each do |user|
+#   3.times do
+#     Session.create!(
+#       user: user,
+#       user_agent: Faker::Internet.user_agent,
+#       ip_address: Faker::Internet.ip_v4_address
+#     )
+#   end
+# end

@@ -174,16 +174,19 @@
 
   function finalizeSale() {
     // Implement the logic to finalize the sale
-    console.log({
-      cart,
-      cartTotalAmount,
-      paymentMethods,
-      selectedPaymentMethod,
-      currentPayments,
-      cartAmountDue,
-      customers,
-      selectedCustomer,
-    });
+
+    console.log(
+      $state.snapshot({
+        cart,
+        cartTotalAmount,
+        paymentMethods,
+        selectedPaymentMethod,
+        currentPayments,
+        cartAmountDue,
+        customers,
+        selectedCustomer,
+      })
+    );
   }
 </script>
 
@@ -401,6 +404,7 @@
               type="button"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
+              disabled={cartAmountDue > 0}
               onclick={finalizeSale}
             >
               Finalizar Venda
