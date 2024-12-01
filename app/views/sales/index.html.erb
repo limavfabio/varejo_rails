@@ -1,14 +1,17 @@
-<% content_for :title, "Sales" %>
+<%= render "shared/table",
+  table_frame_id: "sales",
+  header_tags: ["Ações", "Detalhes", "Cliente", "Preço Total"],
+  ransack_predicate: :customer_name_cont do %>
 
-<h1>Sales</h1>
-
-<div id="sales">
   <% @sales.each do |sale| %>
-    <%= render sale %>
-    <p>
-      <%= link_to "Show this sale", sale %>
-    </p>
+    <tr class="">
+      <td><%= render "sales/actions_dropdown", sale: %></td>
+      <td><%= link_to sale %></td>
+      <td><%= sale.customer.name %></td>
+      <td>To be implemented</td>
+    </tr>
   <% end %>
-</div>
 
-<%= link_to "New sale", new_sale_path %>
+<% end %>
+
+<%= render "shared/table/offcanvas_filter" %>

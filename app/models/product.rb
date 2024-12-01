@@ -7,6 +7,6 @@ class Product < ApplicationRecord
   validates :cost_price, numericality: { greater_than: 0, allow_nil: true }
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "name", "description" ]
+    [ "company_id", "cost_price", "created_at", "description", "id", "name", "retail_price", "updated_at" ]
   end
 end

@@ -3,7 +3,8 @@ class SalesController < ApplicationController
 
   # GET /sales or /sales.json
   def index
-    @sales = Sale.all
+    @q = Sale.ransack(params[:q])
+    @sales = @q.result.includes(:customer)
   end
 
   # GET /sales/1 or /sales/1.json

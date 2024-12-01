@@ -1,9 +1,10 @@
 <%= render "shared/table",
   table_frame_id: "products",
-  header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"] do %>
+  header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"],
+  ransack_predicate: :name_cont do %>
 
   <% @products.each do |product| %>
-    <tr class="text-center">
+    <tr class="">
       <td><%= render "products/actions_dropdown", product: %></td>
       <td><%= link_to product.name, product %></td>
       <td><%= product.description %></td>
