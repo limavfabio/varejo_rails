@@ -3,7 +3,7 @@
   header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"] do %>
 
   <% @products.each do |product| %>
-    <tr>
+    <tr class="text-center">
       <td><%= render "products/actions_dropdown", product: %></td>
       <td><%= link_to product.name, product %></td>
       <td><%= product.description %></td>
