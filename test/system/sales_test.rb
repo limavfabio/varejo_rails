@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SalesTest < ApplicationSystemTestCase
   setup do
-    @sale = sales(:one)
+    @fiscal_document = sales(:one)
   end
 
   test "visiting the index" do
@@ -14,8 +14,8 @@ class SalesTest < ApplicationSystemTestCase
     visit sales_url
     click_on "New sale"
 
-    fill_in "Customer", with: @sale.customer_id
-    fill_in "Total value", with: @sale.total_price
+    fill_in "Customer", with: @fiscal_document.customer_id
+    fill_in "Total value", with: @fiscal_document.total_price
     click_on "Create Sale"
 
     assert_text "Sale was successfully created"
@@ -23,11 +23,11 @@ class SalesTest < ApplicationSystemTestCase
   end
 
   test "should update Sale" do
-    visit sale_url(@sale)
+    visit sale_url(@fiscal_document)
     click_on "Edit this sale", match: :first
 
-    fill_in "Customer", with: @sale.customer_id
-    fill_in "Total value", with: @sale.total_price
+    fill_in "Customer", with: @fiscal_document.customer_id
+    fill_in "Total value", with: @fiscal_document.total_price
     click_on "Update Sale"
 
     assert_text "Sale was successfully updated"
@@ -35,7 +35,7 @@ class SalesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Sale" do
-    visit sale_url(@sale)
+    visit sale_url(@fiscal_document)
     click_on "Destroy this sale", match: :first
 
     assert_text "Sale was successfully destroyed"

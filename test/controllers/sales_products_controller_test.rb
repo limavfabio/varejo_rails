@@ -2,7 +2,7 @@ require "test_helper"
 
 class SalesProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @sales_product = sales_products(:one)
+    @document_item = sales_products(:one)
   end
 
   test "should get index" do
@@ -17,30 +17,30 @@ class SalesProductsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create sales_product" do
     assert_difference("SalesProduct.count") do
-      post sales_products_url, params: { sales_product: { product_id: @sales_product.product_id, quantity: @sales_product.quantity, sale_id: @sales_product.sale_id, total_price: @sales_product.total_price } }
+      post sales_products_url, params: { sales_product: { product_id: @document_item.product_id, quantity: @document_item.quantity, sale_id: @document_item.sale_id, total_price: @document_item.total_price } }
     end
 
     assert_redirected_to sales_product_url(SalesProduct.last)
   end
 
   test "should show sales_product" do
-    get sales_product_url(@sales_product)
+    get sales_product_url(@document_item)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_sales_product_url(@sales_product)
+    get edit_sales_product_url(@document_item)
     assert_response :success
   end
 
   test "should update sales_product" do
-    patch sales_product_url(@sales_product), params: { sales_product: { product_id: @sales_product.product_id, quantity: @sales_product.quantity, sale_id: @sales_product.sale_id, total_price: @sales_product.total_price } }
-    assert_redirected_to sales_product_url(@sales_product)
+    patch sales_product_url(@document_item), params: { sales_product: { product_id: @document_item.product_id, quantity: @document_item.quantity, sale_id: @document_item.sale_id, total_price: @document_item.total_price } }
+    assert_redirected_to sales_product_url(@document_item)
   end
 
   test "should destroy sales_product" do
     assert_difference("SalesProduct.count", -1) do
-      delete sales_product_url(@sales_product)
+      delete sales_product_url(@document_item)
     end
 
     assert_redirected_to sales_products_url

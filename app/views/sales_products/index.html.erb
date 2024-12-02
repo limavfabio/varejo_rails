@@ -5,7 +5,7 @@
 <h1>Sales products</h1>
 
 <div id="sales_products">
-  <% @sales_products.each do |sales_product| %>
+  <% @document_items.each do |sales_product| %>
     <%= render sales_product %>
     <p>
       <%= link_to "Show this sales product", sales_product %>

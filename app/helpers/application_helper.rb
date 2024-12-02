@@ -19,6 +19,6 @@ module ApplicationHelper
   #
   # @return [Boolean] true if the current controller has a gestao layout, false otherwise
   def gestao_layout?
-    %w[home companies customers payment_methods products sales sales_payment_methods sales_products].include?(controller_name)
+    %w[home companies customers payment_methods products fiscal_documents document_items document_items].include?(controller_name)
   end
 end

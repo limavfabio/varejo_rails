@@ -1,0 +1,73 @@
+<h1 class="mb-4">Fiscal Document Details</h1>
+<!-- Document Information -->
+<div class="card mb-4">
+  <div class="card-header">
+    Document Information
+  </div>
+  <div class="card-body">
+    <p><strong>Customer:</strong>
+      <%= @fiscal_document.customer.name %></p>
+    <p><strong>Company:</strong>
+      <%= @fiscal_document.company.name %></p>
+    <p><strong>Description:</strong>
+      <%= @fiscal_document.description %></p>
+    <p><strong>Total Value:</strong>
+      <%= number_to_currency(@fiscal_document.total_value) %></p>
+    <p><strong>Created At:</strong>
+      <%= @fiscal_document.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+  </div>
+</div>
+<!-- Document Items -->
+<div class="card mb-4">
+  <div class="card-header">
+    Document Items
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @fiscal_document.document_items.each do |item| %>
+          <tr>
+            <td><%= item.product.name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= number_to_currency(item.product.retail_price) %></td>
+            <td><%= number_to_currency(item.product.retail_price * item.quantity) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Document Payments -->
+<div class="card mb-4">
+  <div class="card-header">
+    Document Payments
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Payment Method</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @fiscal_document.document_payments.each do |payment| %>
+          <tr>
+            <td><%= payment.payment_method.name %></td>
+            <td><%= number_to_currency(payment.amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Back Button -->
+<a href="<%= fiscal_documents_path %>" class="btn btn-secondary">Back to Documents</a>

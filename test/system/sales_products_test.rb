@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SalesProductsTest < ApplicationSystemTestCase
   setup do
-    @sales_product = sales_products(:one)
+    @document_item = sales_products(:one)
   end
 
   test "visiting the index" do
@@ -14,10 +14,10 @@ class SalesProductsTest < ApplicationSystemTestCase
     visit sales_products_url
     click_on "New sales product"
 
-    fill_in "Product", with: @sales_product.product_id
-    fill_in "Quantity", with: @sales_product.quantity
-    fill_in "Sale", with: @sales_product.sale_id
-    fill_in "Total price", with: @sales_product.total_price
+    fill_in "Product", with: @document_item.product_id
+    fill_in "Quantity", with: @document_item.quantity
+    fill_in "Sale", with: @document_item.sale_id
+    fill_in "Total price", with: @document_item.total_price
     click_on "Create Sales product"
 
     assert_text "Sales product was successfully created"
@@ -25,13 +25,13 @@ class SalesProductsTest < ApplicationSystemTestCase
   end
 
   test "should update Sales product" do
-    visit sales_product_url(@sales_product)
+    visit sales_product_url(@document_item)
     click_on "Edit this sales product", match: :first
 
-    fill_in "Product", with: @sales_product.product_id
-    fill_in "Quantity", with: @sales_product.quantity
-    fill_in "Sale", with: @sales_product.sale_id
-    fill_in "Total price", with: @sales_product.total_price
+    fill_in "Product", with: @document_item.product_id
+    fill_in "Quantity", with: @document_item.quantity
+    fill_in "Sale", with: @document_item.sale_id
+    fill_in "Total price", with: @document_item.total_price
     click_on "Update Sales product"
 
     assert_text "Sales product was successfully updated"
@@ -39,7 +39,7 @@ class SalesProductsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Sales product" do
-    visit sales_product_url(@sales_product)
+    visit sales_product_url(@document_item)
     click_on "Destroy this sales product", match: :first
 
     assert_text "Sales product was successfully destroyed"

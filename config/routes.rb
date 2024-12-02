@@ -11,9 +11,9 @@ Rails.application.routes.draw do
     resource :email_verification, only: [ :show, :create ]
     resource :password_reset,     only: [ :new, :edit, :create, :update ]
   end
-  resources :sales_payment_methods
-  resources :sales_products
-  resources :sales
+  resources :document_payments
+  resources :document_items
+  resources :fiscal_documents
   resources :payment_methods
   resources :customers
   resources :products

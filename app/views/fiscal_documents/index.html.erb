@@ -1,13 +1,13 @@
 <%= render "shared/table",
-  table_frame_id: "sales",
+  table_frame_id: "fiscal_documents",
   header_tags: ["Ações", "Detalhes", "Cliente", "Preço Total"],
   ransack_predicate: :customer_name_cont do %>
 
-  <% @sales.each do |sale| %>
+  <% @fiscal_documents.each do |fiscal_document| %>
     <tr class="">
-      <td><%= render "sales/actions_dropdown", sale: %></td>
-      <td><%= link_to sale %></td>
-      <td><%= sale.customer.name %></td>
+      <td><%= render "fiscal_documents/actions_dropdown", fiscal_document: %></td>
+      <td><%= link_to fiscal_document %></td>
+      <td><%= fiscal_document.customer.name %></td>
       <td>To be implemented</td>
     </tr>
   <% end %>

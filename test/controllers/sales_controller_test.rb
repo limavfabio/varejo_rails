@@ -2,7 +2,7 @@ require "test_helper"
 
 class SalesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @sale = sales(:one)
+    @fiscal_document = sales(:one)
   end
 
   test "should get index" do
@@ -17,30 +17,30 @@ class SalesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create sale" do
     assert_difference("Sale.count") do
-      post sales_url, params: { sale: { customer_id: @sale.customer_id, total_value: @sale.total_price } }
+      post sales_url, params: { sale: { customer_id: @fiscal_document.customer_id, total_value: @fiscal_document.total_price } }
     end
 
     assert_redirected_to sale_url(Sale.last)
   end
 
   test "should show sale" do
-    get sale_url(@sale)
+    get sale_url(@fiscal_document)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_sale_url(@sale)
+    get edit_sale_url(@fiscal_document)
     assert_response :success
   end
 
   test "should update sale" do
-    patch sale_url(@sale), params: { sale: { customer_id: @sale.customer_id, total_value: @sale.total_price } }
-    assert_redirected_to sale_url(@sale)
+    patch sale_url(@fiscal_document), params: { sale: { customer_id: @fiscal_document.customer_id, total_value: @fiscal_document.total_price } }
+    assert_redirected_to sale_url(@fiscal_document)
   end
 
   test "should destroy sale" do
     assert_difference("Sale.count", -1) do
-      delete sale_url(@sale)
+      delete sale_url(@fiscal_document)
     end
 
     assert_redirected_to sales_url

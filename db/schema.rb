@@ -26,6 +26,49 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
     t.index ["company_id"], name: "index_customers_on_company_id"
   end
 
+  create_table "document_items", force: :cascade do |t|
+    t.integer "fiscal_document_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fiscal_document_id"], name: "index_document_items_on_fiscal_document_id"
+    t.index ["product_id"], name: "index_document_items_on_product_id"
+  end
+
+  create_table "document_payments", force: :cascade do |t|
+    t.integer "fiscal_document_id", null: false
+    t.integer "payment_method_id", null: false
+    t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fiscal_document_id"], name: "index_document_payments_on_fiscal_document_id"
+    t.index ["payment_method_id"], name: "index_document_payments_on_payment_method_id"
+  end
+
+  create_table "fiscal_documents", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "fiscal_scenario_id", null: false
+    t.text "description", null: false
+    t.decimal "total_value"
+    t.integer "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_fiscal_documents_on_company_id"
+    t.index ["customer_id"], name: "index_fiscal_documents_on_customer_id"
+    t.index ["fiscal_scenario_id"], name: "index_fiscal_documents_on_fiscal_scenario_id"
+  end
+
+  create_table "fiscal_scenarios", force: :cascade do |t|
+    t.string "description"
+    t.integer "operation"
+    t.integer "operation_type"
+    t.integer "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_fiscal_scenarios_on_company_id"
+  end
+
   create_table "payment_methods", force: :cascade do |t|
     t.string "name"
     t.integer "company_id", null: false
@@ -43,36 +86,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_products_on_company_id"
-  end
-
-  create_table "sale_payments", force: :cascade do |t|
-    t.integer "sale_id", null: false
-    t.integer "payment_method_id", null: false
-    t.decimal "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["payment_method_id"], name: "index_sale_payments_on_payment_method_id"
-    t.index ["sale_id"], name: "index_sale_payments_on_sale_id"
-  end
-
-  create_table "sale_products", force: :cascade do |t|
-    t.integer "sale_id", null: false
-    t.integer "product_id", null: false
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_sale_products_on_product_id"
-    t.index ["sale_id"], name: "index_sale_products_on_sale_id"
-  end
-
-  create_table "sales", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.decimal "total_price"
-    t.integer "company_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_sales_on_company_id"
-    t.index ["customer_id"], name: "index_sales_on_customer_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -98,14 +111,16 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   end
 
   add_foreign_key "customers", "companies"
+  add_foreign_key "document_items", "fiscal_documents"
+  add_foreign_key "document_items", "products"
+  add_foreign_key "document_payments", "fiscal_documents"
+  add_foreign_key "document_payments", "payment_methods"
+  add_foreign_key "fiscal_documents", "companies"
+  add_foreign_key "fiscal_documents", "customers"
+  add_foreign_key "fiscal_documents", "fiscal_scenarios"
+  add_foreign_key "fiscal_scenarios", "companies"
   add_foreign_key "payment_methods", "companies"
   add_foreign_key "products", "companies"
-  add_foreign_key "sale_payments", "payment_methods"
-  add_foreign_key "sale_payments", "sales"
-  add_foreign_key "sale_products", "products"
-  add_foreign_key "sale_products", "sales"
-  add_foreign_key "sales", "companies"
-  add_foreign_key "sales", "customers"
   add_foreign_key "sessions", "users"
   add_foreign_key "users", "companies"
 end
