@@ -15,7 +15,6 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
-
   test "should not update email with wrong password challenge" do
     patch identity_email_url, params: { email: "new_email@hey.com", password_challenge: "SecretWrong1*3" }
 

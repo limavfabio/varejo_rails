@@ -203,6 +203,7 @@
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="/">Home</a></li>
       <li><a class="dropdown-item" href="/products">Produtos</a></li>
+      <li><a class="dropdown-item" href="/fiscal_documents">Vendas</a></li>
     </ul>
   </div>
 </header>

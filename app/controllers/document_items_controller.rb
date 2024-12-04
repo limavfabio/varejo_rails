@@ -1,5 +1,5 @@
 class DocumentItemsController < ApplicationController
-  before_action :set_document_item, only: %i[ show edit update destroy ]
+  before_action :set_document_item, only: %i[show edit update destroy]
 
   # GET /document_items or /document_items.json
   def index
@@ -58,13 +58,14 @@ class DocumentItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_document_item
-      @document_item = DocumentItem.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def document_item_params
-      params.expect(document_item: [ :sale_id, :product_id, :quantity, :total_price ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_document_item
+    @document_item = DocumentItem.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def document_item_params
+    params.expect(document_item: [ :sale_id, :product_id, :quantity, :total_price ])
+  end
 end

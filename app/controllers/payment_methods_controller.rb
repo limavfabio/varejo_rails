@@ -1,5 +1,5 @@
 class PaymentMethodsController < ApplicationController
-  before_action :set_payment_method, only: %i[ show edit update destroy ]
+  before_action :set_payment_method, only: %i[show edit update destroy]
 
   # GET /payment_methods or /payment_methods.json
   def index
@@ -58,13 +58,14 @@ class PaymentMethodsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_payment_method
-      @payment_method = PaymentMethod.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def payment_method_params
-      params.expect(payment_method: [ :name ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_payment_method
+    @payment_method = PaymentMethod.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def payment_method_params
+    params.expect(payment_method: [ :name ])
+  end
 end

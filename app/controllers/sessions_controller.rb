@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate, only: %i[ new create ]
+  skip_before_action :authenticate, only: %i[new create]
 
   before_action :set_session, only: :destroy
 
@@ -22,11 +22,13 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @session.destroy; redirect_to(sessions_path, notice: "That session has been logged out")
+    @session.destroy
+    redirect_to(sessions_path, notice: "That session has been logged out")
   end
 
   private
-    def set_session
-      @session = Current.user.sessions.find(params[:id])
-    end
+
+  def set_session
+    @session = Current.user.sessions.find(params[:id])
+  end
 end

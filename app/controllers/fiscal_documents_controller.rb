@@ -1,5 +1,5 @@
 class FiscalDocumentsController < ApplicationController
-  before_action :set_fiscal_document, only: %i[ show edit update destroy ]
+  before_action :set_fiscal_document, only: %i[show edit update destroy]
 
   # GET /fiscal_documents or /fiscal_documents.json
   def index
@@ -59,13 +59,15 @@ class FiscalDocumentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fiscal_document
-      @fiscal_document = FiscalDocument.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def sale_params
-      params.expect(fiscal_document: [ :customer_id, :total_price ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fiscal_document
+    @fiscal_document = FiscalDocument.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def sale_params
+    params.expect(fiscal_document: [ :customer_id, :fiscal_scenario_id, :description ],
+      customer: [ :name, :address ])
+  end
 end

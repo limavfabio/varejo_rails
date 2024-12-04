@@ -1,5 +1,5 @@
 # db/seeds.rb
-require 'faker'
+require "faker"
 
 # Create Companies
 10.times do
@@ -10,9 +10,9 @@ end
 
 # Create an Admin User
 User.create!(
-  name: 'Admin',
+  name: "Admin",
   email: "admin@admin.com",
-  password: 'password',
+  password: "password",
   verified: true,
   role: 2, # Assuming 2 is the admin role
   company: Company.first
@@ -25,7 +25,7 @@ companies = Company.all
     User.create!(
       name: Faker::Name.name,
       email: Faker::Internet.unique.email,
-      password: 'password', # Use a secure password in production
+      password: "password", # Use a secure password in production
       verified: Faker::Boolean.boolean,
       role: rand(0..2), # Assuming roles are defined as integers
       company: company
