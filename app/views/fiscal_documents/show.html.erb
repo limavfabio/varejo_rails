@@ -1,6 +1,6 @@
-<div class="container-fluid overflow-y-auto vh-100 pb-3">
-  <div class="d-flex flex-column gap-2">
-    <h1 class="">Fiscal Document Details</h1>
+<div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
+  <div class="d-flex flex-column gap-2 mb-2">
+    <h1 class="">Detalhes da Nota Fiscal</h1>
     <!-- Document Information -->
     <div class="card">
       <div class="card-header">
@@ -9,8 +9,6 @@
       <div class="card-body">
         <p><strong>Cliente:</strong>
           <%= @fiscal_document.customer.name %></p>
-        <p><strong>Empresa:</strong>
-          <%= @fiscal_document.company.name %></p>
         <p><strong>Descrição:</strong>
           <%= @fiscal_document.description %></p>
         <p><strong>Valor Total:</strong>
@@ -92,6 +90,6 @@
       </div>
     </div>
     <!-- Back Button -->
-    <%= render "fiscal_documents/footer" %>
   </div>
+  <%= render "fiscal_documents/footer" %>
 </div>

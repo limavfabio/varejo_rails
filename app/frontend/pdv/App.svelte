@@ -163,30 +163,92 @@
       });
   });
 
-  type sale = {
-    id: number;
-    customer: Customer;
-    products: Product[];
-    payments: Payment[];
-    created_at: string;
-    updated_at: string;
+  // Finalize sale
+  type FiscalDocument = {
+    fiscal_document: {
+      customer_id: number;
+      description: string;
+      document_items_attributes: {
+        product_id: number;
+        quantity: number;
+      }[];
+      document_payments_attributes: {
+        payment_method_id: number;
+        amount: number;
+      }[];
+    };
   };
+  let fiscalDocument: FiscalDocument | null = $state(null);
+
+  // const fiscalDocumentData: FiscalDocument = {
+  //   fiscal_document: {
+  //     customer_id: 1,
+  //     fiscal_scenario_id: 2,
+  //     description: "New fiscal document",
+  //     document_items_attributes: [
+  //       { product_id: 1, quantity: 2 },
+  //       { product_id: 2, quantity: 3 },
+  //     ],
+  //     document_payments_attributes: [
+  //       { payment_method_id: 1, amount: 50.0 },
+  //       { payment_method_id: 2, amount: 50.0 },
+  //     ],
+  //   },
+  // };
+
+  //     :customer_id,
+  //     :fiscal_scenario_id,
+  //     :description,
+  //     :total_value,
+  //     document_items_attributes: [ :product_id, :quantity ],
+  //     document_payments_attributes: [ :payment_method_id, :amount ]
 
   function finalizeSale() {
     // Implement the logic to finalize the sale
+    fiscalDocument = {
+      fiscal_document: {
+        customer_id: 1,
+        description: "Venda de Mercadorias",
+        document_items_attributes: cart.map((item) => ({
+          product_id: item.product.id,
+          quantity: item.quantity,
+        })),
+        document_payments_attributes: currentPayments.map((payment) => ({
+          payment_method_id: payment.payment_method.id,
+          amount: payment.amount,
+        })),
+      },
+    };
 
-    console.log(
-      $state.snapshot({
-        cart,
-        cartTotalAmount,
-        paymentMethods,
-        selectedPaymentMethod,
-        currentPayments,
-        cartAmountDue,
-        customers,
-        selectedCustomer,
+    console.log($state.snapshot(fiscalDocument));
+    const csrfToken = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+
+    fetch("/fiscal_documents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify(fiscalDocument),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.errors) {
+          console.error("Error:", data.errors);
+        } else {
+          console.log("Success:", data.message);
+          // Handle success (e.g., update the UI, redirect, etc.)
+          // Reset the cart and payments
+          cart = [];
+          currentPayments = [];
+        }
       })
-    );
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 </script>
 

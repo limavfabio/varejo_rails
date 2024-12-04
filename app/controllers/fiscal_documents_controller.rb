@@ -22,7 +22,9 @@ class FiscalDocumentsController < ApplicationController
 
   # POST /fiscal_documents or /fiscal_documents.json
   def create
-    @fiscal_document = FiscalDocument.new(sale_params)
+    @fiscal_document = FiscalDocument.new(fiscal_document_params)
+    @fiscal_document.company = Current.user.company
+    @fiscal_document.fiscal_scenario = FiscalScenario.where(company: Current.user.company).first
 
     respond_to do |format|
       if @fiscal_document.save
@@ -38,7 +40,7 @@ class FiscalDocumentsController < ApplicationController
   # PATCH/PUT /fiscal_documents/1 or /fiscal_documents/1.json
   def update
     respond_to do |format|
-      if @fiscal_document.update(sale_params)
+      if @fiscal_document.update(fiscal_document_params)
         format.html { redirect_to @fiscal_document, notice: "FiscalDocument was successfully updated." }
         format.json { render :show, status: :ok, location: @fiscal_document }
       else
@@ -53,7 +55,7 @@ class FiscalDocumentsController < ApplicationController
     @fiscal_document.destroy!
 
     respond_to do |format|
-      format.html { redirect_to sales_path, status: :see_other, notice: "FiscalDocument was successfully destroyed." }
+      format.html { redirect_to fiscal_documents_path, status: :see_other, notice: "FiscalDocument was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -66,8 +68,10 @@ class FiscalDocumentsController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def sale_params
-    params.expect(fiscal_document: [ :customer_id, :fiscal_scenario_id, :description ],
-      customer: [ :name, :address ])
+  def fiscal_document_params
+    params.expect(fiscal_document: [ :customer_id, :total_price, :description,
+    document_items_attributes: [ [ :product_id, :quantity ] ],
+    document_payments_attributes: [ [ :payment_method_id, :amount ] ]
+  ])
   end
 end

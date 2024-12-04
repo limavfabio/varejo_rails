@@ -1,2 +1,3 @@
-json.extract! sale, :id, :customer_id, :total_value, :created_at, :updated_at
-json.url sale_url(sale, format: :json)
+json.extract! fiscal_document, :id, :customer_id, :fiscal_scenario_id, :company_id,
+  :description, :total_value, :created_at, :updated_at
+json.url fiscal_document_url(fiscal_document, format: :json)

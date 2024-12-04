@@ -1,1 +1,1 @@
-json.partial! "sales/sale", sale: @fiscal_document
+json.partial! "fiscal_documents/fiscal_document", fiscal_document: @fiscal_document

@@ -21,4 +21,8 @@ module ApplicationHelper
   def gestao_layout?
     %w[home companies customers payment_methods products fiscal_documents document_items document_items].include?(controller_name)
   end
+
+  def custom_date(date)
+    date.strftime("%d/%m/%Y, %H:%M")
+  end
 end

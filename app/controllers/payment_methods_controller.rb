@@ -3,7 +3,7 @@ class PaymentMethodsController < ApplicationController
 
   # GET /payment_methods or /payment_methods.json
   def index
-    @payment_methods = PaymentMethod.all
+    @payment_methods = PaymentMethod.where(company: Current.user.company)
   end
 
   # GET /payment_methods/1 or /payment_methods/1.json
