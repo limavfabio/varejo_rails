@@ -174,6 +174,7 @@
       searchEnabled: true, // Enable search functionality
       placeholderValue: "Select a customer", // Placeholder text
       removeItemButton: true, // Allow items to be removed
+      renderChoiceLimit: 5,
     });
   };
 
@@ -236,20 +237,22 @@
       },
       body: JSON.stringify(fiscalDocument),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.errors) {
-          console.error("Error:", data.errors);
-        } else {
-          console.log("Success:", data.message);
-          // Handle success (e.g., update the UI, redirect, etc.)
-          // Reset the cart and payments
-          cart = [];
-          currentPayments = [];
+      .then((response) => {
+        if (!response.ok) {
+          // If response is not ok, throw an error to be caught in the catch block
+          throw new Error("Houve um erro!");
         }
+        return response.json(); // Parse the JSON from the response
+      })
+      .then((data) => {
+        console.log(data); // Log the data on success
+        cart = [];
+        currentPayments = [];
+        // open in a new tab the fiscal_document page
+        window.open(`/fiscal_documents/${data.id}`, "_blank");
       })
       .catch((error) => {
-        console.error("Error:", error);
+        alert(error); // Alert the error message on failure
       });
   }
 </script>
