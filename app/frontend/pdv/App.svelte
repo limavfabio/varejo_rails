@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Choices from "choices.js";
+  import type { Action } from "svelte/action";
+
   // Fetch Products
   type Product = {
     id: number;
@@ -137,13 +140,13 @@
   type Customer = {
     id: number;
     name: string;
-    email: string;
+    address: string;
     created_at: string;
     updated_at: string;
   };
 
   let customers: Customer[] = $state([]);
-  let selectedCustomer: Customer | null = $state(null);
+  let selectedCustomerId: number | null = $state(null);
 
   $effect(() => {
     fetch("/customers.json")
@@ -163,6 +166,29 @@
       });
   });
 
+  let choices;
+
+  const initChoices: Action = (node) => {
+    // the node has been mounted in the DOM
+    choices = new Choices("#customer-select", {
+      searchEnabled: true, // Enable search functionality
+      placeholderValue: "Select a customer", // Placeholder text
+      removeItemButton: true, // Allow items to be removed
+    });
+  };
+
+  $effect(() => {
+    choices.setChoices([
+      ...customers.map((customer) => ({
+        value: customer.id,
+        label: customer.name,
+      })),
+    ]);
+  });
+
+  $inspect(customers);
+  $inspect(selectedCustomerId);
+
   // Finalize sale
   type FiscalDocument = {
     fiscal_document: {
@@ -180,34 +206,10 @@
   };
   let fiscalDocument: FiscalDocument | null = $state(null);
 
-  // const fiscalDocumentData: FiscalDocument = {
-  //   fiscal_document: {
-  //     customer_id: 1,
-  //     fiscal_scenario_id: 2,
-  //     description: "New fiscal document",
-  //     document_items_attributes: [
-  //       { product_id: 1, quantity: 2 },
-  //       { product_id: 2, quantity: 3 },
-  //     ],
-  //     document_payments_attributes: [
-  //       { payment_method_id: 1, amount: 50.0 },
-  //       { payment_method_id: 2, amount: 50.0 },
-  //     ],
-  //   },
-  // };
-
-  //     :customer_id,
-  //     :fiscal_scenario_id,
-  //     :description,
-  //     :total_value,
-  //     document_items_attributes: [ :product_id, :quantity ],
-  //     document_payments_attributes: [ :payment_method_id, :amount ]
-
   function finalizeSale() {
-    // Implement the logic to finalize the sale
     fiscalDocument = {
       fiscal_document: {
-        customer_id: 1,
+        customer_id: selectedCustomerId,
         description: "Venda de Mercadorias",
         document_items_attributes: cart.map((item) => ({
           product_id: item.product.id,
@@ -420,6 +422,16 @@
               Adicionar Pagamento
             </button>
           </div>
+        </div>
+
+        <div>
+          <select
+            use:initChoices
+            id="customer-select"
+            class=""
+            bind:value={selectedCustomerId}
+          >
+          </select>
         </div>
       </div>
       <div class="col-md-6">

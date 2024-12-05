@@ -1,5 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import "choices.js/src/styles/choices";
 
 .dropdown-toggle::after {
   display: none; /* Hides the chevron */
