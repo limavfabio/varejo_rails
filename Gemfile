@@ -42,7 +42,9 @@ group :development, :test do
   gem "brakeman", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
+  # gem "rubocop-rails-omakase", require: false
+  gem "standard", require: false
+  gem "standard-rails", require: false
 
   gem "erb-formatter"
   gem "faker", "~> 3.5"
