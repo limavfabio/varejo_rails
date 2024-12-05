@@ -1,12 +1,12 @@
 <%= render "shared/table",
   table_frame_id: "fiscal_documents",
-  header_tags: ["Ações", "Cliente", "ID", "Emissão", "Valor Total"],
+  header_tags: ["Ações", "Destinatário", "ID", "Emissão", "Valor Total"],
   ransack_predicate: :customer_name_cont do %>
 
   <% @fiscal_documents.each do |fiscal_document| %>
     <tr class="">
       <td><%= render "fiscal_documents/actions_dropdown", fiscal_document: %></td>
-      <td><%= link_to fiscal_document.customer.name, fiscal_document %></td>
+      <td><%= link_to (fiscal_document.customer&.name or "Não informado"), fiscal_document %></td>
       <td><%= fiscal_document.id %></td>
       <td><%= custom_date(fiscal_document.created_at) %></td>
       <td class=<%= fiscal_document.venda? ? "text-success" : "text-danger" %>><%= number_to_currency(fiscal_document.total_value) %></td>

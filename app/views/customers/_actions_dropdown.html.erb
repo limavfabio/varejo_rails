@@ -1,0 +1,13 @@
+<div class="dropdown">
+  <button
+    class="btn dropdown-toggle"
+    type="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <%= bi_icon "three-dots-vertical" %>
+  </button>
+  <ul class="dropdown-menu">
+    <li><%= button_to "Deletar Pessoa", customer, method: :delete, class: "dropdown-item" %></li>
+  </ul>
+</div>

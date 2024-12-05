@@ -1,11 +1,25 @@
-<% content_for :title, "New customer" %>
+<div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
+  <%= form_with(model: @customer) do |f| %>
+    <div class="d-flex flex-column gap-2 mb-2">
+      <h2 class="">Criar Novo cliente</h2>
+      <!-- Customer Information -->
+      <div class="card">
+        <div class="card-header">
+          Informação do Cliente
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <%= f.label :name, class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
 
-<h1>New customer</h1>
-
-<%= render "form", customer: @customer %>
-
-<br>
-
-<div>
-  <%= link_to "Back to customers", customers_path %>
+          <div class="mb-3">
+            <%= f.label :address, class: "form-label" %>
+            <%= f.textarea :address, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= render "customers/footer" %>
+  <% end %>
 </div>

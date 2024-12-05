@@ -7,8 +7,8 @@
         Informação do Documento
       </div>
       <div class="card-body">
-        <p><strong>Cliente:</strong>
-          <%= @fiscal_document.customer.name %></p>
+        <p><strong>Destinatário:</strong>
+          <%= @fiscal_document.customer&.name or "Não informado" %></p>
         <p><strong>Descrição:</strong>
           <%= @fiscal_document.description %></p>
         <p><strong>Valor Total:</strong>

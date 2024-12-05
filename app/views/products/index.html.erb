@@ -1,7 +1,8 @@
 <%= render "shared/table",
   table_frame_id: "products",
   header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"],
-  ransack_predicate: :name_cont do %>
+  ransack_predicate: :name_cont,
+  new_resource_title: "Novo Produto", new_resource_path: new_product_path do %>
 
   <% @products.each do |product| %>
     <tr class="">

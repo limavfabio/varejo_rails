@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: %i[show stock edit update destroy]
   # GET /products or /products.json
   def index
     @q = Product.ransack(params[:q])
@@ -8,6 +8,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
+  end
+
+  def stock
   end
 
   # GET /products/new
@@ -67,6 +70,6 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.expect(product: [ :name, :description, :cost_price, :retail_price ])
+    params.expect(product: [:name, :description, :cost_price, :retail_price])
   end
 end

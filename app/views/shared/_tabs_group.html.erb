@@ -1,0 +1,14 @@
+<%# locals: (tabs:) -%>
+<ul class="nav gap-3">
+  <% tabs.each do |tab| %>
+    <li class="nav-item">
+      <a
+        class="nav-link <%= current_page?(tab[:href]) ? "text-bg-primary rounded" : "" %>"
+        aria-current="page"
+        href="<%= tab[:href]%>"
+      >
+        <%= tab[:title] %>
+      </a>
+    </li>
+  <% end %>
+</ul>

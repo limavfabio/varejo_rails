@@ -1,4 +1,4 @@
-<%# locals: (table_frame_id:, header_tags:, ransack_predicate:) -%>
+<%# locals: (table_frame_id:, header_tags:, ransack_predicate:, new_resource_title:, new_resource_path:) -%>
 <div class="p-2 vh-100 overflow-y-scroll">
   <div
     class="
@@ -22,7 +22,7 @@
     </div>
 
     <div colspan="3" class="text-end">
-      <%= link_to "Novo Produto", new_product_path, class: "btn btn-primary" %>
+      <%= link_to new_resource_title, new_resource_path, class: "btn btn-primary" %>
       <button
         class="btn btn-secondary"
         type="button"

@@ -55,7 +55,7 @@ if Rails.env.development?
 
   # Create Products
   companies.each do |company|
-    5.times do
+    10.times do
       Product.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Commerce.department(max: 1),
@@ -79,7 +79,7 @@ if Rails.env.development?
   companies.each do |company|
     5.times do
       customer = Customer.where(company: company).sample
-      fiscal_document = FiscalDocument.create!(
+      fiscal_document = FiscalDocument.new(
         company: company,
         fiscal_scenario: FiscalScenario.where(company: company).sample,
         customer: customer,
@@ -90,20 +90,27 @@ if Rails.env.development?
       # Create Document Items
       2.times do
         product = Product.where(company: company).sample
-        DocumentItem.create!(
-          fiscal_document: fiscal_document,
+        document_item = DocumentItem.new(
           product: product,
           quantity: rand(1..5)
         )
+        # Associate the document item with the fiscal document
+        fiscal_document.document_items << document_item
       end
+
+      fiscal_document.calculate_total_value
 
       # Create Document Payments
       payment_method = PaymentMethod.where(company: company).sample
-      DocumentPayment.create!(
-        fiscal_document: fiscal_document,
+      document_payment = DocumentPayment.new(
         payment_method: payment_method,
-        amount: total_value # Assuming full payment for simplicity
+        amount: fiscal_document.total_value # Assuming full payment for simplicity
       )
+      # Associate the document payment with the fiscal document
+      fiscal_document.document_payments << document_payment
+
+      # Now save the fiscal document along with its associated items and payments
+      fiscal_document.save!
     end
   end
 

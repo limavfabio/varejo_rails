@@ -4,19 +4,23 @@ Rails.application.routes.draw do
   post "sign_in", to: "sessions#create"
   get "sign_up", to: "registrations#new"
   post "sign_up", to: "registrations#create"
-  resources :sessions, only: [ :index, :show, :destroy ]
-  resource :password, only: [ :edit, :update ]
+  resources :sessions, only: [:index, :show, :destroy]
+  resource :password, only: [:edit, :update]
   namespace :identity do
-    resource :email, only: [ :edit, :update ]
-    resource :email_verification, only: [ :show, :create ]
-    resource :password_reset, only: [ :new, :edit, :create, :update ]
+    resource :email, only: [:edit, :update]
+    resource :email_verification, only: [:show, :create]
+    resource :password_reset, only: [:new, :edit, :create, :update]
   end
   resources :document_payments
   resources :document_items
   resources :fiscal_documents
   resources :payment_methods
   resources :customers
-  resources :products
+  resources :products do
+    member do
+      get :stock
+    end
+  end
   get "pdv", to: "pdv#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

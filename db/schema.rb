@@ -47,7 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   end
 
   create_table "fiscal_documents", force: :cascade do |t|
-    t.integer "customer_id", null: false
+    t.integer "customer_id"
     t.integer "fiscal_scenario_id", null: false
     t.text "description", null: false
     t.decimal "total_value"

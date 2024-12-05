@@ -1,10 +1,25 @@
-<p style="color: green"><%= notice %></p>
+<div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
+  <%= form_with(model: @customer) do |form| %>
+    <div class="d-flex flex-column gap-2 mb-2">
+      <h2 class="">Detalhes do cliente</h2>
+      <!-- Customer Information -->
+      <div class="card">
+        <div class="card-header">
+          Informação do Cliente
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
+          </div>
 
-<%= render @customer %>
-
-<div>
-  <%= link_to "Edit this customer", edit_customer_path(@customer) %> |
-  <%= link_to "Back to customers", customers_path %>
-
-  <%= button_to "Destroy this customer", @customer, method: :delete %>
+          <div class="mb-3">
+            <%= form.label :address, class: "form-label" %>
+            <%= form.textarea :address, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= render "customers/footer", form: %>
+  <% end %>
 </div>

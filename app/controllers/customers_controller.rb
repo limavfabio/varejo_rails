@@ -3,7 +3,8 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
-    @customers = Customer.all
+    @q = Customer.ransack(params[:q])
+    @customers = @q.result(distinct: true)
   end
 
   # GET /customers/1 or /customers/1.json
@@ -66,6 +67,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.expect(customer: [ :name, :address ])
+    params.expect(customer: [:name, :address])
   end
 end

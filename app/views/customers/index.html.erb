@@ -1,16 +1,16 @@
-<p style="color: green"><%= notice %></p>
+<%= render "shared/table",
+  table_frame_id: "customers",
+  header_tags: ["Ações", "Nome"],
+  ransack_predicate: :name_cont,
+  new_resource_title: "New customer", new_resource_path: new_customer_path do %>
 
-<% content_for :title, "Customers" %>
-
-<h1>Customers</h1>
-
-<div id="customers">
   <% @customers.each do |customer| %>
-    <%= render customer %>
-    <p>
-      <%= link_to "Show this customer", customer %>
-    </p>
+    <tr class="">
+      <td><%= render "customers/actions_dropdown", customer: %></td>
+      <td><%= link_to customer.name, customer %></td>
+    </tr>
   <% end %>
-</div>
 
-<%= link_to "New customer", new_customer_path %>
+<% end %>
+
+<%= render "shared/table/offcanvas_filter" %>

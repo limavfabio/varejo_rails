@@ -1,7 +1,7 @@
 <%= form_with(model: @product) do |form| %>
   <div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
     <div class="d-flex flex-column gap-2 mb-2">
-      <h2 class="">Detalhes do Produto</h2>
+      <h2 class="">Estoque do Produto</h2>
 
       <% tabs = [
         { title: "Detalhes", href: "/products/#{@product.id}" },
@@ -11,7 +11,7 @@
       <!-- Customer Information -->
       <div class="card">
         <div class="card-header">
-          Informações do Produto
+          Informações dos Estoques do Produto
         </div>
         <div class="card-body">
           <div class="mb-3">
