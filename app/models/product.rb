@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   validates :retail_price, numericality: {greater_than: 0}
   validates :cost_price, numericality: {greater_than: 0, allow_nil: true}
 
-  default_scope { where(company_id: Current.user.company_id) }
+  default_scope { where(company_id: Current.user&.company_id) if Current.user }
 
   def self.ransackable_attributes(auth_object = nil)
     ["company_id", "cost_price", "created_at", "description", "id", "name", "retail_price", "updated_at"]

@@ -6,5 +6,5 @@ class Customer < ApplicationRecord
     ["address", "company_id", "created_at", "id", "name", "updated_at"]
   end
 
-  default_scope { where(company_id: Current.user.company_id) }
+  default_scope { where(company_id: Current.user&.company_id) if Current.user }
 end
