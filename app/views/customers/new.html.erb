@@ -1,5 +1,5 @@
 <div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
-  <%= form_with(model: @customer) do |f| %>
+  <%= form_with(model: @customer) do |form| %>
     <div class="d-flex flex-column gap-2 mb-2">
       <h2 class="">Criar Novo cliente</h2>
       <!-- Customer Information -->
@@ -9,17 +9,29 @@
         </div>
         <div class="card-body">
           <div class="mb-3">
-            <%= f.label :name, class: "form-label" %>
-            <%= f.text_field :name, class: "form-control" %>
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
           </div>
 
           <div class="mb-3">
-            <%= f.label :address, class: "form-label" %>
-            <%= f.textarea :address, class: "form-control" %>
+            <%= form.label :address, class: "form-label" %>
+            <%= form.textarea :address, class: "form-control" %>
           </div>
         </div>
       </div>
+      <% if @customer.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(@customer.errors.count, "error") %>
+            prohibited this customer from being saved:</h2>
+
+          <ul>
+            <% @customer.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
-    <%= render "customers/footer" %>
+    <%= render "customers/footer", form: %>
   <% end %>
 </div>

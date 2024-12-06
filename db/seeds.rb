@@ -1,7 +1,5 @@
-# db/seeds.rb
-require "faker"
-
 if Rails.env.development?
+  require "faker"
   # Create Companies
   10.times do
     Company.create!(
@@ -144,12 +142,4 @@ elsif Rails.env.production?
     role: 2, # Assuming roles are defined as integers
     company: company
   )
-
-  10.times do
-    Customer.create!(
-      name: Faker::Name.name,
-      address: Faker::Address.full_address,
-      company: company
-    )
-  end
 end

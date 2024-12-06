@@ -1,7 +1,8 @@
 <%= render "shared/table",
   table_frame_id: "fiscal_documents",
   header_tags: ["Ações", "Destinatário", "ID", "Emissão", "Valor Total"],
-  ransack_predicate: :customer_name_cont do %>
+  ransack_predicate: :customer_name_cont,
+  new_resource_title: "Nova Nota Fiscal", new_resource_path: new_fiscal_document_path do %>
 
   <% @fiscal_documents.each do |fiscal_document| %>
     <tr class="">
