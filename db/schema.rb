@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_06_193013) do
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -80,8 +80,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "cost_price"
-    t.decimal "retail_price"
+    t.integer "cost_price"
+    t.integer "retail_price"
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
