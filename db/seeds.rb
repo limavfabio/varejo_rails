@@ -57,7 +57,7 @@ if Rails.env.development?
       Product.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Commerce.department(max: 1),
-        retail_price: Faker::Commerce.price(range: 50.0..100.0),
+        retail_price_cents: rand(1..20000),
         company: company
       )
     end
@@ -82,7 +82,7 @@ if Rails.env.development?
         fiscal_scenario: FiscalScenario.where(company: company).sample,
         customer: customer,
         description: Faker::Lorem.sentence,
-        total_value: 0 # Will be updated after creating document items
+        total_value_cents: 0 # Will be updated after creating document items
       )
 
       # Create Document Items
@@ -96,13 +96,13 @@ if Rails.env.development?
         fiscal_document.document_items << document_item
       end
 
-      fiscal_document.calculate_total_value
+      fiscal_document.calculate_total_value_cents
 
       # Create Document Payments
       payment_method = PaymentMethod.where(company: company).sample
       document_payment = DocumentPayment.new(
         payment_method: payment_method,
-        amount: fiscal_document.total_value # Assuming full payment for simplicity
+        amount_cents: fiscal_document.total_value_cents # Assuming full payment for simplicity
       )
       # Associate the document payment with the fiscal document
       fiscal_document.document_payments << document_payment

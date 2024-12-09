@@ -3,27 +3,28 @@ class Product < ApplicationRecord
 
   validates :name, presence: true, length: {maximum: 50}
   validates :description, length: {maximum: 200}
-  validates :cost_price, numericality: {greater_than_or_equal_to: 0, allow_nil: true}
-  validates :retail_price, numericality: {greater_than: 0}
+  validates :cost_price,
+    numericality: {greater_than_or_equal_to: 0, allow_nil: true, only_integer: true}
+  validates :retail_price, numericality: {greater_than: 0, only_integer: true}
 
   def cost_price
-    (self[:cost_price] / 100.0) if self[:cost_price]
+    (self[:cost_price_cents].to_d / 100) if self[:cost_price_cents]
   end
 
   def retail_price
-    self[:retail_price] / 100.0
+    self[:retail_price_cents].to_d / 100
   end
 
   def cost_price=(value)
-    if value == ""
-      self[:cost_price] = nil
+    self[:cost_price_cents] = if value == ""
+      nil
     else
-      super((value.to_f * 100).to_i)
+      (value.to_d * 100).to_i
     end
   end
 
   def retail_price=(value)
-    super((value.to_f * 100).to_i)
+    self[:retail_price_cents] = (value.to_d * 100).to_i
   end
 
   default_scope { where(company_id: Current.user&.company_id) if Current.user }

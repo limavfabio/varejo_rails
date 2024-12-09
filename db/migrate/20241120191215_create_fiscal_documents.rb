@@ -4,7 +4,7 @@ class CreateFiscalDocuments < ActiveRecord::Migration[8.0]
       t.references :customer, foreign_key: true
       t.references :fiscal_scenario, null: false, foreign_key: true
       t.text :description, null: false
-      t.decimal :total_value
+      t.integer :total_value_cents
 
       t.references :company, null: false, foreign_key: true
 

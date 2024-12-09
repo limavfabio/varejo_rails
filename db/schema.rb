@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_06_193013) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_06_193013) do
   create_table "document_payments", force: :cascade do |t|
     t.integer "fiscal_document_id", null: false
     t.integer "payment_method_id", null: false
-    t.decimal "amount"
+    t.integer "amount_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["fiscal_document_id"], name: "index_document_payments_on_fiscal_document_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_06_193013) do
     t.integer "customer_id"
     t.integer "fiscal_scenario_id", null: false
     t.text "description", null: false
-    t.decimal "total_value"
+    t.integer "total_value_cents"
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -80,8 +80,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_06_193013) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "cost_price"
-    t.integer "retail_price"
+    t.integer "cost_price_cents"
+    t.integer "retail_price_cents"
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

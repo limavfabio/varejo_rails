@@ -187,8 +187,8 @@
     ]);
   });
 
-  $inspect(customers);
   $inspect(selectedCustomerId);
+  $inspect(cartTotalAmount);
 
   // Finalize sale
   type FiscalDocument = {
