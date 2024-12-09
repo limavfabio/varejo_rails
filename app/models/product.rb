@@ -15,7 +15,11 @@ class Product < ApplicationRecord
   end
 
   def cost_price=(value)
-    super((value.to_f * 100).to_i)
+    if value == ""
+      self[:cost_price] = nil
+    else
+      super((value.to_f * 100).to_i)
+    end
   end
 
   def retail_price=(value)
