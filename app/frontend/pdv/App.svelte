@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy, untrack } from "svelte";
+  import { untrack } from "svelte";
   import type { Action } from "svelte/action";
   import Choices from "choices.js";
   import IMask from "imask";
-  import { on } from "svelte/events";
 
   // Fetch Products
   type Product = {
