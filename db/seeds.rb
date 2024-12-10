@@ -63,11 +63,6 @@ if Rails.env.development?
     end
   end
 
-  # t.string "description"
-  # t.integer "operation"
-  # t.integer "operation_type"
-  # t.datetime "created_at", null: false
-  # t.datetime "updated_at", null: false
   # Create Fiscal Scenarios
   companies.each do |company|
     FiscalScenario.create!(description: "Venda", operation: 1, operation_type: 1, company: company)
