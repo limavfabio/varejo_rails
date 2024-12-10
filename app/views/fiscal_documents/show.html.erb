@@ -86,6 +86,13 @@
               </tr>
             <% end %>
           </tbody>
+          <tfoot>
+            <tr class="h5">
+              <td>Total:</td>
+              <% payments_sum = @fiscal_document.document_payments.sum(:amount_cents) / 100.0 %>
+              <td><%= number_to_currency(payments_sum) %></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
