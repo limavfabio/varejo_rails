@@ -69,9 +69,8 @@ class FiscalDocumentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def fiscal_document_params
-    params.expect(fiscal_document: [ :customer_id, :total_price, :description,
-    document_items_attributes: [ [ :product_id, :quantity ] ],
-    document_payments_attributes: [ [ :payment_method_id, :amount ] ]
-  ])
+    params.expect(fiscal_document: [:customer_id, :total_price, :description,
+      document_items_attributes: [[:product_id, :quantity]],
+      document_payments_attributes: [[:payment_method_id, :amount_cents]]])
   end
 end

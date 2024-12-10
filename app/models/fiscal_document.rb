@@ -12,7 +12,7 @@ class FiscalDocument < ApplicationRecord
   validates :description, presence: true, length: {minimum: 3, maximum: 255}
   validates :document_items, presence: true
   validates :document_payments, presence: true
-  validates :total_value_cents, numericality: {greater_than: 0, only_integer: true}
+  validates :total_value_cents, numericality: {greater_than: 0, only_integer: true, allow_nil: true}
 
   before_save :calculate_total_value_cents
 

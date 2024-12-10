@@ -1,16 +1,21 @@
 <script lang="ts">
-  import Choices from "choices.js";
+  import { onMount, onDestroy, untrack } from "svelte";
   import type { Action } from "svelte/action";
+  import Choices from "choices.js";
+  import IMask from "imask";
+  import { on } from "svelte/events";
 
   // Fetch Products
   type Product = {
     id: number;
     name: string;
     description: string;
-    cost_price: number;
-    retail_price: number;
-    created_at: string;
-    updated_at: string;
+    cost_price_cents: number;
+    retail_price_cents: number;
+    costPrice: number;
+    retailPrice: number;
+    createdAt: string;
+    updatedAt: string;
   };
 
   let products: Product[] = $state([]);
@@ -29,8 +34,10 @@
         products = data;
         products = products.map((product) => ({
           ...product,
-          retail_price: Number(product.retail_price),
-          cost_price: Number(product.cost_price),
+          retailPriceCents: Number(product.retail_price_cents),
+          costPriceCents: Number(product.cost_price_cents),
+          retailPrice: Number(product.retail_price_cents) / 100,
+          costPrice: Number(product.cost_price_cents) / 100,
         }));
 
         loading = false;
@@ -48,11 +55,12 @@
   };
 
   let cart: CartItem[] = $state([]);
-  let cartTotalAmount = $derived.by(() => {
+  let cartTotalAmountCents = $derived.by(() => {
     return cart.reduce((total, item) => {
-      return total + item.product.retail_price * item.quantity;
+      return total + item.product.retail_price_cents * item.quantity;
     }, 0);
   });
+  let cartTotalAmount = $derived(cartTotalAmountCents / 100);
 
   function addToCart(product: Product) {
     const existingItem = cart.find((item) => item.product.id === product.id);
@@ -82,7 +90,8 @@
 
   type Payment = {
     id: number;
-    payment_method: PaymentMethod;
+    paymentMethod: PaymentMethod;
+    amountCents: number;
     amount: number;
   };
 
@@ -90,15 +99,16 @@
   let selectedPaymentMethod: PaymentMethod | null = $state(null);
   let currentPayments: Payment[] = $state([]);
   let paymentInputAmount: number = $state(0);
-  let cartAmountDue = $derived.by(() => {
+  let cartAmountDueCents = $derived.by(() => {
     // Calculate the total amount of current payments
     const totalPayments = currentPayments.reduce((total, payment) => {
-      return total + payment.amount;
+      return total + payment.amountCents;
     }, 0);
 
     // Calculate the remaining amount due
-    return cartTotalAmount - totalPayments;
+    return cartTotalAmountCents - totalPayments;
   });
+  let cartAmountDue = $derived(cartAmountDueCents / 100);
 
   $effect(() => {
     fetch("/payment_methods.json")
@@ -124,8 +134,9 @@
       ...currentPayments,
       {
         id: currentPayments.length + 1,
-        payment_method: paymentMethod,
-        amount: amount,
+        paymentMethod: paymentMethod,
+        amountCents: amount,
+        amount: amount / 100,
       },
     ];
   }
@@ -136,13 +147,58 @@
     );
   }
 
+  // Use imask on the payment input
+  const inputMask: Action = (node) => {
+    $effect(() => {
+      const maskOptions = {
+        mask: "R$ num",
+        blocks: {
+          num: {
+            mask: Number, // enable number mask
+            // other options are optional with defaults below
+            scale: 2, // digits after point, 0 for integers
+            thousandsSeparator: " ", // any single char
+            padFractionalZeros: false, // if true, then pads zeros at end to the length of scale
+            normalizeZeros: true, // appends or removes zeros at ends
+            radix: ",", // fractional delimiter
+            mapToRadix: ["."], // symbols to process as radix
+            lazy: false,
+
+            min: 0,
+            max: 99999,
+            autofix: true,
+          },
+        },
+      };
+
+      const mask = IMask(node, maskOptions);
+
+      // This being inside an $effect makes it reactive
+      mask.unmaskedValue = String(paymentInputAmount);
+
+      // Untrack to avoid circular assignment
+      untrack(() => {
+        // 'accept' event fired on input when mask value has changed
+        mask.on("accept", () => {
+          paymentInputAmount = Number(mask.unmaskedValue);
+        });
+      });
+
+      return () => {
+        mask.destroy();
+      };
+    });
+  };
+
+  $inspect(paymentInputAmount);
+
   // Customer
   type Customer = {
     id: number;
     name: string;
     address: string;
-    created_at: string;
-    updated_at: string;
+    createdAt: string;
+    updatedAt: string;
   };
 
   let customers: Customer[] = $state([]);
@@ -187,9 +243,6 @@
     ]);
   });
 
-  $inspect(selectedCustomerId);
-  $inspect(cartTotalAmount);
-
   // Finalize sale
   type FiscalDocument = {
     fiscal_document: {
@@ -201,7 +254,7 @@
       }[];
       document_payments_attributes: {
         payment_method_id: number;
-        amount: number;
+        amount_cents: number;
       }[];
     };
   };
@@ -217,8 +270,8 @@
           quantity: item.quantity,
         })),
         document_payments_attributes: currentPayments.map((payment) => ({
-          payment_method_id: payment.payment_method.id,
-          amount: payment.amount,
+          payment_method_id: payment.paymentMethod.id,
+          amount_cents: payment.amountCents,
         })),
       },
     };
@@ -297,7 +350,7 @@
                 <!-- Assuming product has a name attribute -->
                 <h5 class="card-title">{product.name}</h5>
                 <!-- Assuming product has a description attribute -->
-                <p class="card-text">R$ {product.retail_price}</p>
+                <p class="card-text">R$ {product.retailPrice}</p>
               </div>
             </div>
           </button>
@@ -323,7 +376,7 @@
             </div>
             <div class="d-flex align-items-center gap-3">
               <span class="badge rounded-pill text-bg-primary"
-                >${item.product.retail_price}</span
+                >${item.product.retailPrice}</span
               >
               <button
                 class="btn btn-sm btn-danger"
@@ -389,7 +442,7 @@
                 class="btn btn-primary col"
                 onclick={() => {
                   selectedPaymentMethod = paymentMethod;
-                  paymentInputAmount === 0
+                  paymentInputAmount === 0 || paymentInputAmount === null
                     ? (paymentInputAmount = cartAmountDue)
                     : paymentInputAmount;
                 }}
@@ -407,17 +460,16 @@
           </div>
           <div class="mt-3">
             <input
-              bind:value={paymentInputAmount}
+              use:inputMask
+              id="payment-amount-input"
               class="form-control"
-              type="number"
-              step="0.01"
             />
             <button
               class="btn btn-primary"
               type="button"
               disabled={!selectedPaymentMethod || paymentInputAmount <= 0}
               onclick={() => {
-                addPayment(selectedPaymentMethod, paymentInputAmount);
+                addPayment(selectedPaymentMethod, paymentInputAmount * 100);
                 selectedPaymentMethod = null;
                 paymentInputAmount = 0;
               }}
@@ -458,7 +510,7 @@
                 class="list-group-item d-flex justify-content-between align-items-center text-center"
               >
                 <div>
-                  {payment.payment_method.name}
+                  {payment.paymentMethod.name}
                 </div>
                 <div class="d-flex align-items-center gap-3">
                   <span class="badge rounded-pill text-bg-primary"
