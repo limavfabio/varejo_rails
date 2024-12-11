@@ -4,8 +4,8 @@ class Product < ApplicationRecord
   validates :name, presence: true, length: {maximum: 50}
   validates :description, length: {maximum: 200}
   validates :cost_price,
-    numericality: {greater_than_or_equal_to: 0, allow_nil: true, only_integer: true}
-  validates :retail_price, numericality: {greater_than: 0, only_integer: true}
+    numericality: {greater_than_or_equal_to: 0, allow_nil: true}
+  validates :retail_price, numericality: {greater_than: 0}
 
   def cost_price
     (self[:cost_price_cents].to_d / 100) if self[:cost_price_cents]

@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -20,15 +23,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "address"
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_customers_on_company_id"
   end
 
   create_table "document_items", force: :cascade do |t|
-    t.integer "fiscal_document_id", null: false
-    t.integer "product_id", null: false
+    t.bigint "fiscal_document_id", null: false
+    t.bigint "product_id", null: false
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -37,8 +40,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   end
 
   create_table "document_payments", force: :cascade do |t|
-    t.integer "fiscal_document_id", null: false
-    t.integer "payment_method_id", null: false
+    t.bigint "fiscal_document_id", null: false
+    t.bigint "payment_method_id", null: false
     t.integer "amount_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,11 +50,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
   end
 
   create_table "fiscal_documents", force: :cascade do |t|
-    t.integer "customer_id"
-    t.integer "fiscal_scenario_id", null: false
+    t.bigint "customer_id"
+    t.bigint "fiscal_scenario_id", null: false
     t.text "description", null: false
     t.integer "total_value_cents"
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_fiscal_documents_on_company_id"
@@ -63,7 +66,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
     t.string "description"
     t.integer "operation"
     t.integer "operation_type"
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_fiscal_scenarios_on_company_id"
@@ -71,7 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
 
   create_table "payment_methods", force: :cascade do |t|
     t.string "name"
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_payment_methods_on_company_id"
@@ -82,14 +85,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
     t.text "description"
     t.integer "cost_price_cents"
     t.integer "retail_price_cents"
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_products_on_company_id"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "user_agent"
     t.string "ip_address"
     t.datetime "created_at", null: false
@@ -103,7 +106,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_124813) do
     t.string "email", null: false
     t.string "password_digest", null: false
     t.boolean "verified", default: false, null: false
-    t.integer "company_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_users_on_company_id"
