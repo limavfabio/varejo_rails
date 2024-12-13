@@ -51,19 +51,18 @@ const handleBlur = () => {
 
 const selectItem = (item: Product) => {
   emit('select', item)
-  searchQuery.value = item.name
+  searchQuery.value = ""
   showDropdown.value = false
 }
 </script>
 
 <template>
   <div class="search-container position-relative">
-    <input type="text" class="form-control" v-model="searchQuery" @focus="showDropdown = true" @blur="handleBlur"
+    <input type="text" class="form-control" v-model="searchQuery" @focus="showDropdown = true"
       placeholder="Search..." />
 
     <div v-if="showDropdown && filteredResults.length > 0" class="dropdown-menu show w-100 position-absolute">
-      <a v-for="item in filteredResults" :key="item.id" class="dropdown-item" href="#"
-        @mousedown.prevent="selectItem(item)">
+      <a v-for="item in filteredResults" :key="item.id" class="dropdown-item" href="#" @mousedown="selectItem(item)">
         {{ item.name }}
         <small class="text-muted d-block">{{ item.description }}</small>
       </a>
