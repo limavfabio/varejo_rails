@@ -1,4 +1,3 @@
-// composables/useSales.ts
 import { ref, computed } from "vue";
 import type {
   Product,
@@ -6,10 +5,8 @@ import type {
   Payment,
   PaymentMethod,
   Customer,
-  FiscalDocument,
 } from "../lib/types";
 
-// Refs para estado
 export const products = ref<{ data: Product[]; loading: boolean }>({
   data: [],
   loading: true,
