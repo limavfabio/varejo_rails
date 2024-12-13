@@ -1,8 +1,6 @@
-import { mount } from "svelte";
-import App from "~/pdv/App.svelte";
+import { createApp } from "vue";
+import App from "~/pdv/App.vue";
 
-const app = mount(App, {
-  target: document.getElementById("svelte-app"),
-});
+const app = createApp(App);
 
-export default app;
+app.mount("#vue-app");

@@ -37,7 +37,7 @@ export type Customer = {
 
 export type FiscalDocument = {
   fiscal_document: {
-    customer_id: number;
+    customer_id: number | null;
     description: string;
     document_items_attributes: {
       product_id: number;

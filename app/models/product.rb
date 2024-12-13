@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :company
+  has_many :document_items
 
   validates :name, presence: true, length: {maximum: 50}
   validates :description, length: {maximum: 200}

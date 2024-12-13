@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import RubyPlugin from "vite-plugin-ruby";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
 import FullReload from "vite-plugin-full-reload";
+import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
   plugins: [
@@ -11,6 +11,6 @@ export default defineConfig({
       "app/views/**/*",
       "app/frontend/stylesheets/**/*",
     ]),
-    svelte(),
+    vue(),
   ],
 });
