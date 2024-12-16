@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { products, cart } from '../lib/saleStore';
+import { addToCart } from '../lib/actions';
+
+</script>
+
 <template>
   <div class="col-md-6">
     <h2 class="text-center my-3">Produtos</h2>
@@ -16,11 +22,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import type { Product } from '../lib/types';
-import { products, cart } from '../lib/saleStore';
-import { addToCart } from '../lib/actions';
-
-</script>
