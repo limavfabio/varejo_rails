@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, watchEffect } from 'vue'
+import { onMounted, onWatcherCleanup, ref, useTemplateRef, watch, watchEffect } from 'vue'
 import Fuse from 'fuse.js'
 import type { Product } from '../lib/types'
 import { products } from '../lib/saleStore'
@@ -9,6 +9,9 @@ import { addToCart } from '../lib/actions'
 const searchQuery = ref('')
 const showDropdown = ref(false)
 const filteredResults = ref<Product[]>([])
+
+const input = useTemplateRef('input')
+
 
 // Configuração do Fuse.js
 const fuseOptions = {
@@ -27,6 +30,7 @@ watchEffect(() => {
 
 // Observa mudanças na query de busca
 watch(searchQuery, (newQuery) => {
+  showDropdown.value = true
   if (newQuery.trim()) {
     const results = fuse.search(newQuery)
     filteredResults.value = results
@@ -41,7 +45,8 @@ watch(searchQuery, (newQuery) => {
 const selectItem = (item: Product) => {
   addToCart(item)
   searchQuery.value = ""
-  showDropdown.value = false
+  // showDropdown.value = false
+  input.value?.focus()
 }
 
 onMounted(() => {
@@ -57,12 +62,24 @@ onMounted(() => {
       showDropdown.value = false
     }
   })
+
+  // if (!input.value) return
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      if (input.value === document.activeElement) {
+        if (filteredResults.value.length > 0) {
+          selectItem(filteredResults.value[0])
+        }
+      }
+    }
+  })
+
 })
 </script>
 
 <template>
   <div class="search-container position-relative">
-    <input type="text" class="form-control" v-model="searchQuery" @focus="showDropdown = true"
+    <input ref="input" type="text" class="form-control" v-model="searchQuery" @focus="showDropdown = true"
       placeholder="Search..." />
 
     <div v-if="showDropdown && filteredResults.length > 0" class="dropdown-menu show w-100 position-absolute">
