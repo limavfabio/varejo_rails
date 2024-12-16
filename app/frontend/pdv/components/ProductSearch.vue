@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import { onMounted, ref, watch, watchEffect } from 'vue'
 import Fuse from 'fuse.js'
 import type { Product } from '../lib/types'
 import { products } from '../lib/saleStore'
@@ -38,18 +38,26 @@ watch(searchQuery, (newQuery) => {
 })
 
 // Funções
-const handleBlur = () => {
-  // Pequeno delay para permitir que o click do item seja processado
-  setTimeout(() => {
-    showDropdown.value = false
-  }, 200)
-}
-
 const selectItem = (item: Product) => {
   addToCart(item)
   searchQuery.value = ""
   showDropdown.value = false
 }
+
+onMounted(() => {
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement
+    if (!target.closest('.search-container')) {
+      showDropdown.value = false
+    }
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      showDropdown.value = false
+    }
+  })
+})
 </script>
 
 <template>
@@ -58,7 +66,7 @@ const selectItem = (item: Product) => {
       placeholder="Search..." />
 
     <div v-if="showDropdown && filteredResults.length > 0" class="dropdown-menu show w-100 position-absolute">
-      <a v-for="item in filteredResults" :key="item.id" class="dropdown-item" href="#" @mousedown="selectItem(item)">
+      <a v-for="item in filteredResults" :key="item.id" class="dropdown-item" href="#" @click="selectItem(item)">
         {{ item.name }}
         <small class="text-muted d-block">{{ item.description }}</small>
       </a>
@@ -70,25 +78,3 @@ const selectItem = (item: Product) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.search-container {
-  /* Ajuste conforme necessário */
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.dropdown-menu {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-}
-</style>
