@@ -3,11 +3,7 @@ import { ref, watch, watchEffect } from 'vue'
 import Fuse from 'fuse.js'
 import type { Product } from '../lib/types'
 import { products } from '../lib/saleStore'
-
-// Emits
-const emit = defineEmits<{
-  (e: 'select', item: Product): void
-}>()
+import { addToCart } from '../lib/actions'
 
 // Estado local
 const searchQuery = ref('')
@@ -50,7 +46,7 @@ const handleBlur = () => {
 }
 
 const selectItem = (item: Product) => {
-  emit('select', item)
+  addToCart(item)
   searchQuery.value = ""
   showDropdown.value = false
 }

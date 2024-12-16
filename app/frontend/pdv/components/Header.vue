@@ -1,17 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount, onMounted, watchEffect } from "vue";
 import ProductSearch from "./ProductSearch.vue";
-import { cart } from "../lib/saleStore";
-import type { Product } from "../lib/types";
-
-function addToCart(product: Product) {
-  const existingItem = cart.value.find((item) => item.product.id === product.id);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.value.push({ product, quantity: 1 });
-  }
-}
 </script>
 
 <template>
@@ -27,7 +15,7 @@ function addToCart(product: Product) {
       </ul>
     </div>
     <div>
-      <ProductSearch @select="addToCart($event)" />
+      <ProductSearch />
     </div>
   </header>
 </template>
