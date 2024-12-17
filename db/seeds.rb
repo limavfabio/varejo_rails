@@ -51,12 +51,22 @@ if Rails.env.development?
     end
   end
 
+  # Create Categories
+  companies.each do |company|
+    5.times do
+      Category.create(
+        name: Faker::Commerce.department(max: 1),
+        company: company
+      )
+    end
+  end
+
   # Create Products
   companies.each do |company|
     10.times do
       Product.create!(
         name: Faker::Commerce.product_name,
-        description: Faker::Commerce.department(max: 1),
+        category: Category.where(company: company).sample,
         retail_price_cents: rand(1..20000),
         company: company
       )

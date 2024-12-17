@@ -1,7 +1,7 @@
 <%= render "shared/table",
   model: @products,
   table_frame_id: "products",
-  header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"],
+  header_tags: ["Ações", "Nome", "Categoria", "Preço de custo", "Preço de venda"],
   ransack_predicate: :name_cont,
   new_resource_title: "Novo Produto", new_resource_path: new_product_path do %>
 
@@ -9,7 +9,7 @@
     <tr class="">
       <td><%= render "products/actions_dropdown", product: %></td>
       <td><%= link_to product.name, product %></td>
-      <td><%= product.description %></td>
+      <td><%= product.category.name %></td>
       <td><%= number_to_brl product.cost_price %></td>
       <td><%= number_to_brl product.retail_price %></td>
     </tr>

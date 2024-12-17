@@ -25,6 +25,11 @@
           </div>
 
           <div class="mb-3">
+            <%= form.label :category, class: "form-label" %>
+            <select name="category" class="form-select"></select>
+          </div>
+
+          <div class="mb-3">
             <%= form.label :cost_price, class: "form-label" %>
             <%= form.number_field :cost_price, step: "0.01", min: "0", class: "form-control" %>
           </div>

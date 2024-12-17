@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_17_152846) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_17_180436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_152846) do
     t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id", null: false
+    t.index ["company_id"], name: "index_categories_on_company_id"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -96,7 +98,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_152846) do
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id"
+    t.bigint "category_id", null: false
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["company_id"], name: "index_products_on_company_id"
   end
@@ -124,6 +126,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_152846) do
   end
 
   add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "categories", "companies"
   add_foreign_key "customers", "companies"
   add_foreign_key "document_items", "fiscal_documents"
   add_foreign_key "document_items", "products"
