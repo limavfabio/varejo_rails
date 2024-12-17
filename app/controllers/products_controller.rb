@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @q = Product.ransack(params[:q])
-    @products = @q.result(distinct: true)
+    @products = @q.result(distinct: true).page(params[:page]).per(15)
   end
 
   # GET /products/1 or /products/1.json
