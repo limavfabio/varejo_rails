@@ -8,12 +8,13 @@ class ProductsController < ApplicationController
     @products = if request.format.json?
       Product.all
     else
-      @q.result(distinct: true).page(params[:page]).per(15)
+      @q.result(distinct: true).order(:id).page(params[:page]).per(15)
     end
   end
 
   # GET /products/1 or /products/1.json
   def show
+    @categories = Category.all
   end
 
   def stock
@@ -76,6 +77,6 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.expect(product: [:name, :description, :cost_price, :retail_price])
+    params.expect(product: [:name, :description, :cost_price, :retail_price, :category_id])
   end
 end

@@ -26,7 +26,10 @@
 
           <div class="mb-3">
             <%= form.label :category, class: "form-label" %>
-            <select name="category" class="form-select"></select>
+            <%= form.select :category_id,
+                        @categories.collect { |c| [c.name, c.id] },
+                        {},
+                        class: "form-select" %>
           </div>
 
           <div class="mb-3">
