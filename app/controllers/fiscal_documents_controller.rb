@@ -4,7 +4,12 @@ class FiscalDocumentsController < ApplicationController
   # GET /fiscal_documents or /fiscal_documents.json
   def index
     @q = FiscalDocument.ransack(params[:q])
-    @fiscal_documents = @q.result.includes(:customer)
+
+    @fiscal_documents = if request.format.json?
+      FiscalDocument.all
+    else
+      @q.result(distinct: true).page(params[:page]).per(15)
+    end
   end
 
   # GET /fiscal_documents/1 or /fiscal_documents/1.json

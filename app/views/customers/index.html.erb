@@ -1,4 +1,5 @@
 <%= render "shared/table",
+  model: @customers,
   table_frame_id: "customers",
   header_tags: ["Ações", "Nome"],
   ransack_predicate: :name_cont,

@@ -1,4 +1,5 @@
 <%= render "shared/table",
+  model: @products,
   table_frame_id: "products",
   header_tags: ["Ações", "Nome", "Descrição", "Preço de custo", "Preço de venda"],
   ransack_predicate: :name_cont,

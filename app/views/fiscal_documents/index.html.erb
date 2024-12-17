@@ -1,4 +1,5 @@
 <%= render "shared/table",
+  model: @fiscal_documents,
   table_frame_id: "fiscal_documents",
   header_tags: ["Ações", "Destinatário", "ID", "Emissão", "Valor Total"],
   ransack_predicate: :customer_name_cont,

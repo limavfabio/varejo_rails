@@ -1,4 +1,4 @@
-<%# locals: (table_frame_id:, header_tags:, ransack_predicate:, new_resource_title:, new_resource_path:) -%>
+<%# locals: (model:, table_frame_id:, header_tags:, ransack_predicate:, new_resource_title:, new_resource_path:) -%>
 <div class="p-2 vh-100 overflow-y-scroll">
   <div
     class="
@@ -53,7 +53,7 @@
           <tr>
             <th colspan="5">
               <nav class="d-flex justify-content-center" aria-label="Page navigation">
-                <%= paginate @products %>
+                <%= paginate model %>
               </nav>
             </th>
           </tr>

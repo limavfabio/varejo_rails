@@ -1,9 +1,15 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show stock edit update destroy]
+
   # GET /products or /products.json
   def index
     @q = Product.ransack(params[:q])
-    @products = @q.result(distinct: true).page(params[:page]).per(15)
+
+    @products = if request.format.json?
+      Product.all
+    else
+      @q.result(distinct: true).page(params[:page]).per(15)
+    end
   end
 
   # GET /products/1 or /products/1.json
