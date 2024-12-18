@@ -30,22 +30,73 @@
             { title: "Home", href: "/", icon: "house" },
             { title: "PDV", href: "/pdv", icon: "cart" },
             { title: "Pessoas", href: "/customers", icon: "people" },
-            { title: "Produtos", href: "/products", icon: "box" },
+            {
+              title: "Produtos",
+              icon: "box",
+              children: [
+                { title: "Produtos", href: "/products", icon: "box" },
+                { title: "Categorias", href: "/categories", icon: "list" },
+              ],
+            },
             {
               title: "Documentos Fiscais",
               href: "/fiscal_documents",
               icon: "cash-stack",
             },
           ] %>
-
+          <!--
           <% links.each do |link| %>
             <li class="nav-item">
-              <a href="<%= link[:href] %>" class="nav-link">
+              <a href="<%= link[:href] || "#" %>" class="nav-link">
                 <%= bi_icon link[:icon] %>
                 <%= link[:title] %>
               </a>
             </li>
           <% end %>
+          -->
+          <div class="accordion accordion-flush" id="nav-accordion">
+            <% links.each do |link| %>
+
+              <% if link[:children] %>
+                <div class="accordion-item border-0">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed gap-1 text-primary"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="collapseTwo"
+                    >
+                      <%= bi_icon link[:icon] %>
+                      <%= link[:title] %>
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseTwo"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#nav-accordion"
+                  >
+                    <div class="accordion-body">
+                      <% link[:children].each do |child| %>
+                        <a href="<%= child[:href] || "#" %>" class="nav-link">
+                          <%= bi_icon child[:icon] %>
+                          <%= child[:title] %>
+                        </a>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% else %>
+                <li class="nav-item">
+                  <a href="<%= link[:href] || "#" %>" class="nav-link">
+                    <%= bi_icon link[:icon] %>
+                    <%= link[:title] %>
+                  </a>
+                </li>
+              <% end %>
+            <% end %>
+          </div>
         </ul>
       </div>
     </div>
