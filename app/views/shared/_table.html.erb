@@ -9,11 +9,11 @@
       <%= search_form_for @q, class: "d-flex gap-3",
         data: { controller: "search_form", "turbo-frame": table_frame_id } do |f| %>
         <%= f.search_field ransack_predicate,
-                       class: "form-control",
-                       data: {
-                         action: "input->search_form#submit",
-                       },
-                       placeholder: "Pesquisar" %>
+                        class: "form-control",
+                        data: {
+                          action: "input->search_form#submit",
+                        },
+                        placeholder: "Pesquisar" %>
 
         <button class="btn btn-primary">
           <i class="bi bi-search"></i>

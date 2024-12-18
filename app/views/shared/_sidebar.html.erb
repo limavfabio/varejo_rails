@@ -44,42 +44,42 @@
               icon: "cash-stack",
             },
           ] %>
-          <!--
-          <% links.each do |link| %>
-            <li class="nav-item">
-              <a href="<%= link[:href] || "#" %>" class="nav-link">
-                <%= bi_icon link[:icon] %>
-                <%= link[:title] %>
-              </a>
-            </li>
-          <% end %>
-          -->
-          <div class="accordion accordion-flush" id="nav-accordion">
-            <% links.each do |link| %>
 
+          <div class="accordion accordion-flus" id="nav-accordion">
+            <% links.each_with_index do |link, index| %>
               <% if link[:children] %>
+                <% is_current = link[:children].any? { |child| current_page?(child[:href]) } %>
                 <div class="accordion-item border-0">
                   <h2 class="accordion-header">
                     <button
-                      class="accordion-button collapsed gap-1 text-primary"
+                      class="
+                        accordion-button <%= 'collapsed' unless is_current %> gap-1 text-primary
+                      "
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target="#collapseTwo"
-                      aria-expanded="false"
-                      aria-controls="collapseTwo"
+                      data-bs-target="#collapse<%= index %>"
+                      aria-expanded="<%= is_current %>"
+                      aria-controls="collapse<%= index %>"
                     >
                       <%= bi_icon link[:icon] %>
                       <%= link[:title] %>
                     </button>
                   </h2>
                   <div
-                    id="collapseTwo"
-                    class="accordion-collapse collapse"
+                    id="collapse<%= index %>"
+                    class="
+                      accordion-collapse collapse <%= 'show' if is_current %>
+                    "
                     data-bs-parent="#nav-accordion"
                   >
                     <div class="accordion-body">
                       <% link[:children].each do |child| %>
-                        <a href="<%= child[:href] || "#" %>" class="nav-link">
+                        <a
+                          href="<%= child[:href] %>"
+                          class="
+                            nav-link <%= 'rounded fw-semibold bg-primary-subtle' if current_page?(child[:href]) %>
+                          "
+                        >
                           <%= bi_icon child[:icon] %>
                           <%= child[:title] %>
                         </a>
@@ -89,7 +89,10 @@
                 </div>
               <% else %>
                 <li class="nav-item">
-                  <a href="<%= link[:href] || "#" %>" class="nav-link">
+                  <a
+                    href="<%= link[:href] %>"
+                    class="nav-link <%= 'rounded fw-semibold bg-primary-subtle' if current_page?(link[:href]) %>"
+                  >
                     <%= bi_icon link[:icon] %>
                     <%= link[:title] %>
                   </a>
