@@ -1,8 +1,25 @@
-<li>
-  <%= category.name %>
-  <% if category.children.present? %>
-    <ul>
-      <%= render_categories(category.children) %>
-    </ul>
-  <% end %>
-</li>
+<div class="category-item mb-2">
+  <div class="d-flex align-items-center gap-2">
+    <div class="fw-medium"><%= category.name %></div>
+
+    <% if category.children.present? %>
+      <button
+        class="btn btn-sm btn-link p-0 text-decoration-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse_<%= dom_id category %>"
+        aria-expanded="false"
+        aria-controls="collapse_<%= dom_id category %>"
+      >
+        <%= bi_icon "chevron-right", class: "small" %>
+      </button>
+    <% end %>
+  </div>
+
+  <div
+    class="collapse ps-3 border-start ms-2 mt-2"
+    id="collapse_<%= dom_id category %>"
+  >
+    <%= render_categories(category.children) %>
+  </div>
+</div>

@@ -10,9 +10,10 @@ module ApplicationHelper
   # Renders a Bootstrap icon.
   #
   # @param [String] icon_name the name of the icon to be rendered
+  # @param [Hash] html_options the HTML options to be applied to the icon
   # @return [String] the HTML code for the icon
-  def bi_icon(icon_name)
-    content_tag(:i, nil, class: "bi bi-#{icon_name}")
+  def bi_icon(icon_name, html_options = {})
+    content_tag(:i, nil, class: "bi bi-#{icon_name} #{html_options[:class]}")
   end
 
   # Checks if the current controller have a gestao layout.
