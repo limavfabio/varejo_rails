@@ -3,7 +3,9 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    # Fetch only the top-level categories
+    # so that we can use the helper method to render the children recursively
+    @categories = Category.where(parent_id: nil)
   end
 
   # GET /categories/1 or /categories/1.json
