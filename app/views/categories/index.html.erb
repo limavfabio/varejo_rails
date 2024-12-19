@@ -1,11 +1,5 @@
-<% content_for :title, "Categories" %>
-
 <div class="p-2 vh-100 overflow-y-scroll">
-  <div class="p-2 bg-light rounded-top">
-    <h1>Categorias</h1>
-
-    <%= render_categories(@categories) %>
-
-    <%= link_to "New category", new_category_path %>
+  <div class="list-group">
+    <%= render_categories @categories %>
   </div>
 </div>

@@ -1,25 +1,51 @@
-<div class="category-item mb-2">
-  <div class="d-flex align-items-center gap-2">
-    <div class="fw-medium"><%= category.name %></div>
-
+<div
+  class="list-group-item border-0 <%= category.parent_id? ? "" : "border-bottom" %> p-2"
+>
+  <div class="d-flex align-items-center gap-3">
+    <%# Toggle button for children %>
     <% if category.children.present? %>
       <button
-        class="btn btn-sm btn-link p-0 text-decoration-none"
+        class="btn btn-link btn-sm p-0 text-primary"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#collapse_<%= dom_id category %>"
+        data-bs-target="#collapse_<%= dom_id(category) %>"
         aria-expanded="false"
-        aria-controls="collapse_<%= dom_id category %>"
+        aria-controls="collapse_<%= dom_id(category) %>"
       >
-        <%= bi_icon "chevron-right", class: "small" %>
+        <%= bi_icon "chevron-right" %>
       </button>
+    <% else %>
+      <div style="width: 16px"></div>
+      <%# Spacer for alignment %>
     <% end %>
+
+    <%# Category Image %>
+
+    <%# Category Name %>
+    <div class="flex-grow-1">
+      <%= category.name %>
+    </div>
+
+    <%# Action Buttons %>
+    <div class="d-flex gap-2">
+      <%= link_to edit_category_path(category),
+                class: "btn btn-outline-primary btn-sm border-0" do %>
+        <%= bi_icon "pencil" %>
+      <% end %>
+
+      <%= link_to new_category_path(parent_id: category.id),
+                class: "btn btn-outline-primary btn-sm border-0" do %>
+        <%= bi_icon "plus" %>
+      <% end %>
+
+      <%# Active Toggle %>
+    </div>
   </div>
 
-  <div
-    class="collapse ps-3 border-start ms-2 mt-2"
-    id="collapse_<%= dom_id category %>"
-  >
-    <%= render_categories(category.children) %>
-  </div>
+  <%# Children %>
+  <% if category.children.present? %>
+    <div class="collapse ps-4 mt-2" id="collapse_<%= dom_id(category) %>">
+      <%= render_categories category.children %>
+    </div>
+  <% end %>
 </div>

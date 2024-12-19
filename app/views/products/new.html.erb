@@ -19,6 +19,14 @@
           </div>
 
           <div class="mb-3">
+            <%= form.label :category, class: "form-label" %>
+            <%= form.select :category_id,
+                        @categories.collect { |c| [c.name, c.id] },
+                        {},
+                        class: "form-select" %>
+          </div>
+
+          <div class="mb-3">
             <%= form.label :cost_price, class: "form-label" %>
             <%= form.text_field :cost_price, type: "number", step: "0.01", class: "form-control" %>
           </div>

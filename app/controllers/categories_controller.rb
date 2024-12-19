@@ -14,11 +14,13 @@ class CategoriesController < ApplicationController
 
   # GET /categories/new
   def new
+    @categories = Category.all
     @category = Category.new
   end
 
   # GET /categories/1/edit
   def edit
+    @categories = Category.all
   end
 
   # POST /categories or /categories.json

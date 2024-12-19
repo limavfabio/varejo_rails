@@ -1,27 +1,58 @@
-<%= form_with(model: category) do |form| %>
-  <% if category.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+<%= form_with(model: @category) do |form| %>
+  <div class="overflow-y-auto vh-100 px-2" style="padding-bottom: 54px;">
+    <div class="d-flex flex-column gap-2 mb-2">
+      <h2 class="">Criar Nova Categoria</h2>
+      <!-- Customer Information -->
+      <div class="card">
+        <div class="card-header">
+          Informações da Categoria
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
+          </div>
 
-      <ul>
-        <% category.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+          <% if params[:parent_id] %>
+            <div class="mb-3">
+              <%= form.label :category, class: "form-label" %>
+              <%= form.select :parent,
+                          [
+                            [
+                              @categories.find(params[:parent_id]).name,
+                              @categories.find(params[:parent_id]).id,
+                            ],
+                          ],
+                          {},
+                          class: "form-select",
+                          disabled: true %>
+              <%= form.hidden_field :parent_id, value: @categories.find(params[:parent_id]).id %>
+            </div>
+          <% else %>
+            <div class="mb-3">
+              <%= form.label :category, class: "form-label" %>
+              <%= form.select :parent_id,
+                          @categories.map { |c| [c.name, c.id] },
+                          {},
+                          class: "form-select" %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+      <% if @category.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(@category.errors.count, "error") %>
+            prohibited this category from being saved:</h2>
+
+          <ul>
+            <% @category.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :parent_id, style: "display: block" %>
-    <%= form.number_field :parent_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= render "categories/footer", form: %>
   </div>
 <% end %>
