@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: varejo_rails
+      POSTGRES_DB: varejo_rails_production
+
+  web:
+    build: .
+    command: bundle exec thrust ./bin/rails server
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+    environment:
+      DATABASE_URL: postgres://varejo_rails:password@db:5432/varejo_rails_production
+      # VAREJO_RAILS_DATABASE_PASSWORD: password
+      RAILS_MASTER_KEY: b7d0f9fc07c95f302c680977f76f6105
+      RAILS_ENV: production
+    volumes:
+      - rails_storage:/rails/storage
+      - rails_logs:/rails/log
+
+volumes:
+  postgres_data:
+  rails_storage:
+  rails_logs:
